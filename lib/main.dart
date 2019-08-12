@@ -3,6 +3,7 @@ import 'api.dart';
 import 'model.dart';
 
 final attractionTitle = 'attraction';
+final paradeTitle = 'parade';
 
 void main() {
   runApp(MaterialApp(
@@ -78,6 +79,7 @@ class _TdlPageState extends State<TdlPage> with SingleTickerProviderStateMixin {
   TabController _tabController;
   Map<String, List<Item>> items = {
     attractionTitle: [],
+    paradeTitle: [],
   };
 
   @override
@@ -87,6 +89,11 @@ class _TdlPageState extends State<TdlPage> with SingleTickerProviderStateMixin {
     getTdlAttraction().then((attractions) {
       setState(() {
         items[attractionTitle] = attractions;
+      });
+    });
+    getTdlParade().then((parades) {
+      setState(() {
+        items[paradeTitle] = parades;
       });
     });
   }
@@ -116,6 +123,7 @@ class _TdsPageState extends State<TdsPage> with SingleTickerProviderStateMixin {
   TabController _tabController;
   Map<String, List<Item>> items = {
     attractionTitle: [],
+    paradeTitle: [],
   };
 
   @override
@@ -125,6 +133,11 @@ class _TdsPageState extends State<TdsPage> with SingleTickerProviderStateMixin {
     getTdsAttraction().then((attractions) {
       setState(() {
         items[attractionTitle] = attractions;
+      });
+    });
+    getTdsParade().then((parades) {
+      setState(() {
+        items[paradeTitle] = parades;
       });
     });
   }

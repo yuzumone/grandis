@@ -48,3 +48,41 @@ class Attraction implements Item {
     return "name: $name, standbyTime: $standbyTime, status: $status, update: $updateTime";
   }
 }
+
+class Parade implements Item {
+  String name;
+  String url;
+  String status;
+  List<dynamic> operatingHours;
+  String updateTime;
+
+  Parade();
+
+  Parade.fromMap(Map<String, dynamic> map) {
+    this.name = map['FacilityName'];
+    this.url = map['FacilityURLSP'];
+    this.status = map['FacilityStatus'];
+    this.operatingHours = map['operatingHours'];
+    this.updateTime = map['UpdateTime'];
+  }
+
+  @override
+  String getTitle() {
+    return name;
+  }
+
+  @override
+  String getSubTitle() {
+    List<String> str = [];
+    if (status != null) {
+      str.add(status);
+    }
+    if (operatingHours != null) {
+      operatingHours.forEach((hour) {
+        str.add("${hour['OperatingHoursFrom']} - ");
+      });
+    }
+    str.add("更新時間: $updateTime");
+    return str.join('\n');
+  }
+}
