@@ -133,3 +133,65 @@ class Greeting implements Item {
     return str.join('\n');
   }
 }
+
+class Restaurant implements Item {
+  String name;
+  String url;
+  String status;
+  String standbyTimeMin;
+  String standbyTimeMax;
+  List<dynamic> operatingHours;
+  String updateTime;
+  String popCornFlavors;
+
+  Restaurant();
+
+  Restaurant.fromMap(Map<String, dynamic> map) {
+    this.name = map['FacilityName'];
+    this.url = map['FacilityURLSP'];
+    this.status = map['FacilityStatus'];
+    this.standbyTimeMin = map['StandbyTimeMin'].toString();
+    this.standbyTimeMax = map['StandbyTimeMax'].toString();
+    this.operatingHours = map['operatingHours'];
+    this.updateTime = map['UpdateTime'];
+    this.popCornFlavors = map['PopCornFlavors'];
+  }
+
+  @override
+  String getTitle() {
+    return name;
+  }
+
+  @override
+  String getSubTitle() {
+    List<String> str = [];
+    if (status != null) {
+      str.add(status);
+    }
+    String wait;
+    if (standbyTimeMin == 'null' && standbyTimeMax == 'null') {
+      wait = null;
+    } else if (standbyTimeMax == 'null') {
+      wait = "$standbyTimeMin分以上";
+    } else if (standbyTimeMin == standbyTimeMax) {
+      wait = "$standbyTimeMax分";
+    } else {
+      wait = "$standbyTimeMin - $standbyTimeMax分";
+    }
+    if (wait != null) {
+      str.add("待ち時間: $wait");
+    }
+    if (operatingHours != null) {
+      operatingHours.forEach((hour) {
+        var sta = hour['OperatingStatus'];
+        sta ??= '';
+        str.add("${hour['OperatingHoursFrom']} - ${hour['OperatingHoursTo']}\t$sta");
+      });
+    }
+    if (popCornFlavors != null) {
+      str.add(popCornFlavors);
+    }
+    str.add("更新時間: $updateTime");
+    return str.join('\n');
+  }
+}

@@ -5,6 +5,7 @@ import 'model.dart';
 final attractionTitle = 'attraction';
 final paradeTitle = 'parade';
 final greetingTitle = 'greeting';
+final restaurantTitle = 'restaurant';
 
 void main() {
   runApp(MaterialApp(
@@ -82,6 +83,7 @@ class _TdlPageState extends State<TdlPage> with SingleTickerProviderStateMixin {
     attractionTitle: [],
     paradeTitle: [],
     greetingTitle: [],
+    restaurantTitle: [],
   };
 
   @override
@@ -101,6 +103,11 @@ class _TdlPageState extends State<TdlPage> with SingleTickerProviderStateMixin {
     getTdlGreeting().then((greetings) {
       setState(() {
         items[greetingTitle] = greetings;
+      });
+    });
+    getTdlRestaurant().then((restaurants) {
+      setState(() {
+        items[restaurantTitle] = restaurants;
       });
     });
   }
@@ -132,6 +139,7 @@ class _TdsPageState extends State<TdsPage> with SingleTickerProviderStateMixin {
     attractionTitle: [],
     paradeTitle: [],
     greetingTitle: [],
+    restaurantTitle: [],
   };
 
   @override
@@ -151,6 +159,11 @@ class _TdsPageState extends State<TdsPage> with SingleTickerProviderStateMixin {
     getTdsGreeting().then((greetings) {
       setState(() {
         items[greetingTitle] = greetings;
+      });
+    });
+    getTdsRestaurant().then((restaurants) {
+      setState(() {
+        items[restaurantTitle] = restaurants;
       });
     });
   }

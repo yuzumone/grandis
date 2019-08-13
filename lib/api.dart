@@ -14,6 +14,10 @@ final String tdlGreetingUrl =
     'https://www.tokyodisneyresort.jp/_/realtime/tdl_greeting.json';
 final String tdsGreetingUrl =
     'https://www.tokyodisneyresort.jp/_/realtime/tds_greeting.json';
+final String tdlRestaurant =
+    'https://www.tokyodisneyresort.jp/_/realtime/tdl_restaurant.json';
+final String tdsRestaurant =
+    'https://www.tokyodisneyresort.jp/_/realtime/tds_restaurant.json';
 final Map<String, String> requestHeaders = {
   'User-Agent':
       'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36',
@@ -117,3 +121,24 @@ Greeting _convertGreeting(Map<String, dynamic> map) {
   return Greeting.fromMap(map);
 }
 
+Future getTdlRestaurant() async {
+  var res = await http.get(
+    tdlRestaurant,
+    headers: requestHeaders,
+  );
+  List<dynamic> data = json.decode(res.body);
+  return data.map((x) => _convertRestaurant(x)).toList();
+}
+
+Future getTdsRestaurant() async {
+  var res = await http.get(
+    tdsRestaurant,
+    headers: requestHeaders,
+  );
+  List<dynamic> data = json.decode(res.body);
+  return data.map((x) => _convertRestaurant(x)).toList();
+}
+
+Restaurant _convertRestaurant(Map<String, dynamic> map) {
+  return Restaurant.fromMap(map);
+}
