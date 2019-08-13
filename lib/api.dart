@@ -10,6 +10,10 @@ final String tdlParadeUrl =
     'https://www.tokyodisneyresort.jp/_/realtime/tdl_parade_show.json';
 final String tdsParadeUrl =
     'https://www.tokyodisneyresort.jp/_/realtime/tds_parade_show.json';
+final String tdlGreetingUrl =
+    'https://www.tokyodisneyresort.jp/_/realtime/tdl_greeting.json';
+final String tdsGreetingUrl =
+    'https://www.tokyodisneyresort.jp/_/realtime/tds_greeting.json';
 final Map<String, String> requestHeaders = {
   'User-Agent':
       'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36',
@@ -64,3 +68,52 @@ Future<List<Item>> getTdsParade() async {
 Parade _convertParade(Map<String, dynamic> map) {
   return Parade.fromMap(map);
 }
+
+Future<List<Item>> getTdlGreeting() async {
+  var res = await http.get(
+    tdlGreetingUrl,
+    headers: requestHeaders,
+  );
+  var data = json.decode(res.body);
+  List<Item> list = [];
+  data['id11']['Facility'].forEach((x) {
+    list.add(_convertGreeting(x['greeting']));
+  });
+  data['id13']['Facility'].forEach((x) {
+    list.add(_convertGreeting(x['greeting']));
+  });
+  data['id16']['Facility'].forEach((x) {
+    list.add(_convertGreeting(x['greeting']));
+  });
+  return list;
+}
+
+Future<List<Item>> getTdsGreeting() async {
+  var res = await http.get(
+    tdsGreetingUrl,
+    headers: requestHeaders,
+  );
+  var data = json.decode(res.body);
+  List<Item> list = [];
+  data['id21']['Facility'].forEach((x) {
+    list.add(_convertGreeting(x['greeting']));
+  });
+  data['id22']['Facility'].forEach((x) {
+    list.add(_convertGreeting(x['greeting']));
+  });
+  data['id25']['Facility'].forEach((x) {
+    list.add(_convertGreeting(x['greeting']));
+  });
+  data['id26']['Facility'].forEach((x) {
+    list.add(_convertGreeting(x['greeting']));
+  });
+  data['id27']['Facility'].forEach((x) {
+    list.add(_convertGreeting(x['greeting']));
+  });
+  return list;
+}
+
+Greeting _convertGreeting(Map<String, dynamic> map) {
+  return Greeting.fromMap(map);
+}
+

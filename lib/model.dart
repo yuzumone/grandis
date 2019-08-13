@@ -86,3 +86,50 @@ class Parade implements Item {
     return str.join('\n');
   }
 }
+
+class Greeting implements Item {
+  String name;
+  String area;
+  String url;
+  String status;
+  String standbyTime;
+  List<dynamic> operatingHours;
+  String updateTime;
+
+  Greeting();
+
+  Greeting.fromMap(Map<String, dynamic> map) {
+    this.name = map['FacilityName'];
+    this.area = map['AreaJName'];
+    this.url = map['FacilityURLSP'];
+    this.status = map['FacilityStatus'];
+    this.standbyTime = map['StandbyTime'];
+    this.operatingHours = map['operatinghours'];
+    this.updateTime = map['UpdateTime'];
+  }
+
+  @override
+  String getTitle() {
+    return name;
+  }
+
+  @override
+  String getSubTitle() {
+    List<String> str = [];
+    if (status != null) {
+      str.add(status);
+    }
+    if (standbyTime != null) {
+      str.add("待ち時間: $standbyTime分");
+    }
+    if (operatingHours != null) {
+      operatingHours.forEach((hour) {
+        var sta = hour['OperatingStatus'];
+        sta ??= '';
+        str.add("${hour['OperatingHoursFrom']} - ${hour['OperatingHoursTo']}\t$sta");
+      });
+    }
+    str.add("更新時間: $updateTime");
+    return str.join('\n');
+  }
+}
