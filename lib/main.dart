@@ -6,6 +6,7 @@ final attractionTitle = 'attraction';
 final paradeTitle = 'parade';
 final greetingTitle = 'greeting';
 final restaurantTitle = 'restaurant';
+final rehabilitateTitle = 'rehabilirate';
 
 void main() {
   runApp(MaterialApp(
@@ -84,6 +85,7 @@ class _TdlPageState extends State<TdlPage> with SingleTickerProviderStateMixin {
     paradeTitle: [],
     greetingTitle: [],
     restaurantTitle: [],
+    rehabilitateTitle: [],
   };
 
   @override
@@ -110,6 +112,13 @@ class _TdlPageState extends State<TdlPage> with SingleTickerProviderStateMixin {
         items[restaurantTitle] = restaurants;
       });
     });
+    getTdlRehabilitate().then((rehabilitates) {
+      rehabilitates.forEach((x) {
+        setState(() {
+          items[rehabilitateTitle] = rehabilitates;
+        });
+      });
+    });
   }
 
   @override
@@ -122,6 +131,7 @@ class _TdlPageState extends State<TdlPage> with SingleTickerProviderStateMixin {
           tabs: _createTabs(items),
           controller: _tabController,
           indicatorColor: Colors.white,
+          isScrollable: true,
         ),
       ),
       body: TabBarView(
@@ -140,6 +150,7 @@ class _TdsPageState extends State<TdsPage> with SingleTickerProviderStateMixin {
     paradeTitle: [],
     greetingTitle: [],
     restaurantTitle: [],
+    rehabilitateTitle: [],
   };
 
   @override
@@ -166,6 +177,11 @@ class _TdsPageState extends State<TdsPage> with SingleTickerProviderStateMixin {
         items[restaurantTitle] = restaurants;
       });
     });
+    getTdsRehabilitate().then((rehabilitates) {
+      setState(() {
+        items[rehabilitateTitle] = rehabilitates;
+      });
+    });
   }
 
   @override
@@ -177,6 +193,7 @@ class _TdsPageState extends State<TdsPage> with SingleTickerProviderStateMixin {
           tabs: _createTabs(items),
           controller: _tabController,
           indicatorColor: Colors.white,
+          isScrollable: true,
         ),
       ),
       body: TabBarView(

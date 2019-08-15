@@ -1,4 +1,7 @@
 import 'package:http/http.dart' as http;
+import 'package:html/parser.dart' as html;
+import 'package:html/dom.dart';
+import 'dart:async';
 import 'dart:convert';
 import 'model.dart';
 
@@ -18,6 +21,10 @@ final String tdlRestaurant =
     'https://www.tokyodisneyresort.jp/_/realtime/tdl_restaurant.json';
 final String tdsRestaurant =
     'https://www.tokyodisneyresort.jp/_/realtime/tds_restaurant.json';
+final String tdlRehabilitateUrl =
+    'https://www.tokyodisneyresort.jp/tdl/monthly/stop.html';
+final String tdsRehabilitateUrl =
+    'https://www.tokyodisneyresort.jp/tds/monthly/stop.html';
 final Map<String, String> requestHeaders = {
   'User-Agent':
       'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36',
@@ -121,7 +128,7 @@ Greeting _convertGreeting(Map<String, dynamic> map) {
   return Greeting.fromMap(map);
 }
 
-Future getTdlRestaurant() async {
+Future<List<Item>> getTdlRestaurant() async {
   var res = await http.get(
     tdlRestaurant,
     headers: requestHeaders,
@@ -130,7 +137,7 @@ Future getTdlRestaurant() async {
   return data.map((x) => _convertRestaurant(x)).toList();
 }
 
-Future getTdsRestaurant() async {
+Future<List<Item>> getTdsRestaurant() async {
   var res = await http.get(
     tdsRestaurant,
     headers: requestHeaders,
@@ -141,4 +148,41 @@ Future getTdsRestaurant() async {
 
 Restaurant _convertRestaurant(Map<String, dynamic> map) {
   return Restaurant.fromMap(map);
+}
+
+Future<List<Item>> getTdlRehabilitate() async {
+  var res = await http.get(
+    tdlRehabilitateUrl,
+    headers: requestHeaders,
+  );
+  var doc = html.parse(res.body);
+  return _parseRehablitates(doc);
+}
+
+Future<List<Item>> getTdsRehabilitate() async {
+  var res = await http.get(
+    tdsRehabilitateUrl,
+    headers: requestHeaders,
+  );
+  var doc = html.parse(res.body);
+  return _parseRehablitates(doc);
+}
+
+List<Rehabilitate> _parseRehablitates(Document doc) {
+  return doc
+      .querySelectorAll('div.linkList6 > ul > li')
+      .map((x) {
+        try {
+          var name = x.querySelector('p').text;
+          var date =
+              x.querySelector('p.date').text.replaceAll(new RegExp(r'\s'), '');
+          var href = x.querySelector('a').attributes['href'];
+          var url = "https://www.tokyodisneyresort.jp$href";
+          return Rehabilitate(name, date, url);
+        } catch (e) {
+          return null;
+        }
+      })
+      .where((x) => x != null)
+      .toList();
 }

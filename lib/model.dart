@@ -126,7 +126,8 @@ class Greeting implements Item {
       operatingHours.forEach((hour) {
         var sta = hour['OperatingStatus'];
         sta ??= '';
-        str.add("${hour['OperatingHoursFrom']} - ${hour['OperatingHoursTo']}\t$sta");
+        str.add(
+            "${hour['OperatingHoursFrom']} - ${hour['OperatingHoursTo']}\t$sta");
       });
     }
     str.add("更新時間: $updateTime");
@@ -185,7 +186,8 @@ class Restaurant implements Item {
       operatingHours.forEach((hour) {
         var sta = hour['OperatingStatus'];
         sta ??= '';
-        str.add("${hour['OperatingHoursFrom']} - ${hour['OperatingHoursTo']}\t$sta");
+        str.add(
+            "${hour['OperatingHoursFrom']} - ${hour['OperatingHoursTo']}\t$sta");
       });
     }
     if (popCornFlavors != null) {
@@ -193,5 +195,23 @@ class Restaurant implements Item {
     }
     str.add("更新時間: $updateTime");
     return str.join('\n');
+  }
+}
+
+class Rehabilitate implements Item {
+  String name;
+  String date;
+  String url;
+
+  Rehabilitate(this.name, this.date, this.url);
+
+  @override
+  String getTitle() {
+    return name;
+  }
+
+  @override
+  String getSubTitle() {
+    return date;
   }
 }
