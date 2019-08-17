@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'api.dart';
 import 'model.dart';
 
@@ -223,9 +224,17 @@ Widget _createTabBarView(String title, Map<String, List<Item>> items) {
         return ListTile(
           title: Text(item.getTitle()),
           subtitle: Text(item.getSubTitle()),
-          onTap: () {},
+          onTap: () {
+            _launchURL(item.getUrl());
+          },
         );
       },
     ),
   );
+}
+
+_launchURL(String url) async {
+  if (await canLaunch(url)) {
+    await launch(url);
+  }
 }

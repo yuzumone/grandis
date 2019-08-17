@@ -1,6 +1,7 @@
 class Item {
   String getTitle() => '';
   String getSubTitle() => '';
+  String getUrl() => '';
 }
 
 class Attraction implements Item {
@@ -44,6 +45,11 @@ class Attraction implements Item {
   }
 
   @override
+  String getUrl() {
+    return url;
+  }
+
+  @override
   String toString() {
     return "name: $name, standbyTime: $standbyTime, status: $status, update: $updateTime";
   }
@@ -84,6 +90,11 @@ class Parade implements Item {
     }
     str.add("更新時間: $updateTime");
     return str.join('\n');
+  }
+
+  @override
+  String getUrl() {
+    return url;
   }
 }
 
@@ -132,6 +143,11 @@ class Greeting implements Item {
     }
     str.add("更新時間: $updateTime");
     return str.join('\n');
+  }
+
+  @override
+  String getUrl() {
+    return url;
   }
 }
 
@@ -196,6 +212,11 @@ class Restaurant implements Item {
     str.add("更新時間: $updateTime");
     return str.join('\n');
   }
+
+  @override
+  String getUrl() {
+    return url;
+  }
 }
 
 class Rehabilitate implements Item {
@@ -213,5 +234,10 @@ class Rehabilitate implements Item {
   @override
   String getSubTitle() {
     return date;
+  }
+
+  @override
+  String getUrl() {
+    return url;
   }
 }
