@@ -11,6 +11,9 @@ final rehabilitateTitle = 'rehabilirate';
 
 void main() {
   runApp(MaterialApp(
+    theme: ThemeData(
+      primarySwatch: Colors.blue,
+    ),
     home: HomePage(),
     routes: <String, WidgetBuilder>{
       '/tdl': (_) => TdlPage(),
@@ -74,7 +77,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ],
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
