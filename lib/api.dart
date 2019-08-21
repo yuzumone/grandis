@@ -25,6 +25,10 @@ final String tdlRehabilitateUrl =
     'https://www.tokyodisneyresort.jp/tdl/monthly/stop.html';
 final String tdsRehabilitateUrl =
     'https://www.tokyodisneyresort.jp/tds/monthly/stop.html';
+final String tdlStatusUrl =
+    'https://www.tokyodisneyresort.jp/view_interface.php?blockId=94199&pageBlockId=135360';
+final String tdsStatusUrl =
+    'https://www.tokyodisneyresort.jp/view_interface.php?blockId=94199&pageBlockId=135410';
 final Map<String, String> requestHeaders = {
   'User-Agent':
       'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36',
@@ -185,4 +189,22 @@ List<Rehabilitate> _parseRehablitates(Document doc) {
       })
       .where((x) => x != null)
       .toList();
+}
+
+Future<String> getTdlStatus() async {
+  var res = await http.get(
+    tdlStatusUrl,
+    headers: requestHeaders,
+  );
+  var doc = html.parse(res.body);
+  return doc.querySelector('p').text;
+}
+
+Future<String> getTdsStatus() async {
+  var res = await http.get(
+    tdsStatusUrl,
+    headers: requestHeaders,
+  );
+  var doc = html.parse(res.body);
+  return doc.querySelector('p').text;
 }

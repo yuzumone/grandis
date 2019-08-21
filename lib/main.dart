@@ -38,41 +38,87 @@ class TdsPage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String _tdlStatus;
+  String _tdsStatus;
+
+  @override
+  void initState() {
+    super.initState();
+    getTdlStatus().then((status) {
+      setState(() {
+        _tdlStatus = status;
+      });
+    });
+    getTdsStatus().then((status) {
+      setState(() {
+        _tdsStatus = status;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Grandis'),
       ),
-      body: Row(
+      body: Column(
         children: <Widget>[
-          Expanded(
-            child: Container(
-              margin: const EdgeInsets.all(8.0),
-              child: RaisedButton(
-                textColor: Colors.white,
-                color: Colors.pink,
-                onPressed: () {
-                  Navigator.of(context).pushNamed('/tdl');
-                },
-                child: Text(
-                  'ディズニーランド',
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.all(8.0),
+                  child: RaisedButton(
+                    textColor: Colors.white,
+                    color: Colors.pink,
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/tdl');
+                    },
+                    child: Text(
+                      'ディズニーランド',
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-          Expanded(
-            child: Container(
-              margin: const EdgeInsets.all(8.0),
-              child: RaisedButton(
-                textColor: Colors.white,
-                color: Colors.blue,
-                onPressed: () {
-                  Navigator.of(context).pushNamed('/tds');
-                },
-                child: Text(
-                  'ディズニーシー',
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.all(8.0),
+                  child: RaisedButton(
+                    textColor: Colors.white,
+                    color: Colors.blue,
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/tds');
+                    },
+                    child: Text(
+                      'ディズニーシー',
+                    ),
+                  ),
                 ),
+              ),
+            ],
+          ),
+          Flexible(
+            child: Container(
+              margin: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  DefaultTextStyle(
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    child: Text('当日券販売状況'),
+                  ),
+                  Text(
+                    _tdlStatus,
+                  ),
+                  Text(
+                    _tdsStatus,
+                  )
+                ],
               ),
             ),
           ),
