@@ -38,8 +38,8 @@ class TdsPage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String _tdlStatus;
-  String _tdsStatus;
+  String _tdlStatus = '';
+  String _tdsStatus = '';
 
   @override
   void initState() {
@@ -101,24 +101,26 @@ class _HomePageState extends State<HomePage> {
           Flexible(
             child: Container(
               margin: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  DefaultTextStyle(
-                    style: TextStyle(
-                      color: Colors.black87,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
+              child: SizedBox.expand(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    DefaultTextStyle(
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      child: Text('当日券販売状況'),
                     ),
-                    child: Text('当日券販売状況'),
-                  ),
-                  Text(
-                    _tdlStatus,
-                  ),
-                  Text(
-                    _tdsStatus,
-                  )
-                ],
+                    Text(
+                      _tdlStatus,
+                    ),
+                    Text(
+                      _tdsStatus,
+                    )
+                  ],
+                ),
               ),
             ),
           ),
