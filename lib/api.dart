@@ -17,9 +17,9 @@ final String tdlGreetingUrl =
     'https://www.tokyodisneyresort.jp/_/realtime/tdl_greeting.json';
 final String tdsGreetingUrl =
     'https://www.tokyodisneyresort.jp/_/realtime/tds_greeting.json';
-final String tdlRestaurant =
+final String tdlRestaurantUrl =
     'https://www.tokyodisneyresort.jp/_/realtime/tdl_restaurant.json';
-final String tdsRestaurant =
+final String tdsRestaurantUrl =
     'https://www.tokyodisneyresort.jp/_/realtime/tds_restaurant.json';
 final String tdlRehabilitateUrl =
     'https://www.tokyodisneyresort.jp/tdl/monthly/stop.html';
@@ -41,16 +41,19 @@ final Map<String, String> requestHeaders = {
 };
 
 Future<List<Item>> getTdlAttraction() async {
-  var res = await http.get(
+  var client = http.Client();
+  var res = await client.get(
     tdlAttractionUrl,
     headers: requestHeaders,
   );
+
   List<dynamic> data = json.decode(res.body);
   return data.map((x) => _convertAttraction(x)).toList();
 }
 
 Future<List<Item>> getTdsAttraction() async {
-  var res = await http.get(
+  var client = http.Client();
+  var res = await client.get(
     tdsAttractionUrl,
     headers: requestHeaders,
   );
@@ -63,7 +66,8 @@ Attraction _convertAttraction(Map<String, dynamic> map) {
 }
 
 Future<List<Item>> getTdlParade() async {
-  var res = await http.get(
+  var client = http.Client();
+  var res = await client.get(
     tdlParadeUrl,
     headers: requestHeaders,
   );
@@ -72,7 +76,8 @@ Future<List<Item>> getTdlParade() async {
 }
 
 Future<List<Item>> getTdsParade() async {
-  var res = await http.get(
+  var client = http.Client();
+  var res = await client.get(
     tdsParadeUrl,
     headers: requestHeaders,
   );
@@ -85,7 +90,8 @@ Parade _convertParade(Map<String, dynamic> map) {
 }
 
 Future<List<Item>> getTdlGreeting() async {
-  var res = await http.get(
+  var client = http.Client();
+  var res = await client.get(
     tdlGreetingUrl,
     headers: requestHeaders,
   );
@@ -104,7 +110,8 @@ Future<List<Item>> getTdlGreeting() async {
 }
 
 Future<List<Item>> getTdsGreeting() async {
-  var res = await http.get(
+  var client = http.Client();
+  var res = await client.get(
     tdsGreetingUrl,
     headers: requestHeaders,
   );
@@ -133,8 +140,9 @@ Greeting _convertGreeting(Map<String, dynamic> map) {
 }
 
 Future<List<Item>> getTdlRestaurant() async {
-  var res = await http.get(
-    tdlRestaurant,
+  var client = http.Client();
+  var res = await client.get(
+    tdlRestaurantUrl,
     headers: requestHeaders,
   );
   List<dynamic> data = json.decode(res.body);
@@ -142,8 +150,9 @@ Future<List<Item>> getTdlRestaurant() async {
 }
 
 Future<List<Item>> getTdsRestaurant() async {
-  var res = await http.get(
-    tdsRestaurant,
+  var client = http.Client();
+  var res = await client.get(
+    tdsRestaurantUrl,
     headers: requestHeaders,
   );
   List<dynamic> data = json.decode(res.body);
@@ -155,24 +164,26 @@ Restaurant _convertRestaurant(Map<String, dynamic> map) {
 }
 
 Future<List<Item>> getTdlRehabilitate() async {
-  var res = await http.get(
+  var client = http.Client();
+  var res = await client.get(
     tdlRehabilitateUrl,
     headers: requestHeaders,
   );
   var doc = html.parse(res.body);
-  return _parseRehablitates(doc);
+  return _parseRehabilitates(doc);
 }
 
 Future<List<Item>> getTdsRehabilitate() async {
-  var res = await http.get(
+  var client = http.Client();
+  var res = await client.get(
     tdsRehabilitateUrl,
     headers: requestHeaders,
   );
   var doc = html.parse(res.body);
-  return _parseRehablitates(doc);
+  return _parseRehabilitates(doc);
 }
 
-List<Rehabilitate> _parseRehablitates(Document doc) {
+List<Rehabilitate> _parseRehabilitates(Document doc) {
   return doc
       .querySelectorAll('div.linkList6 > ul > li')
       .map((x) {
@@ -192,7 +203,8 @@ List<Rehabilitate> _parseRehablitates(Document doc) {
 }
 
 Future<String> getTdlStatus() async {
-  var res = await http.get(
+  var client = http.Client();
+  var res = await client.get(
     tdlStatusUrl,
     headers: requestHeaders,
   );
@@ -201,7 +213,8 @@ Future<String> getTdlStatus() async {
 }
 
 Future<String> getTdsStatus() async {
-  var res = await http.get(
+  var client = http.Client();
+  var res = await client.get(
     tdsStatusUrl,
     headers: requestHeaders,
   );
