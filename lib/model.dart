@@ -96,6 +96,11 @@ class Parade implements Item {
   String getUrl() {
     return url;
   }
+
+  @override
+  String toString() {
+    return "name: $name, status: $status, operating: $operatingHours, update: $updateTime";
+  }
 }
 
 class Greeting implements Item {
@@ -148,6 +153,11 @@ class Greeting implements Item {
   @override
   String getUrl() {
     return url;
+  }
+
+  @override
+  String toString() {
+    return "name: $name, area: $area, status: $status, standby: $standbyTime, operating: $operatingHours, update: $updateTime";
   }
 }
 
@@ -217,6 +227,11 @@ class Restaurant implements Item {
   String getUrl() {
     return url;
   }
+
+  @override
+  String toString() {
+    return "name: $name, status: $status, min: $standbyTimeMin, max: $standbyTimeMax, operating: $operatingHours, update: $updateTime";
+  }
 }
 
 class Rehabilitate implements Item {
@@ -239,5 +254,10 @@ class Rehabilitate implements Item {
   @override
   String getUrl() {
     return url;
+  }
+
+  @override
+  String toString() {
+    return "name: $name, date: $date";
   }
 }
