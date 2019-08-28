@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'api.dart';
 import 'model.dart';
 
@@ -12,6 +13,13 @@ final rehabilitateTitle = 'rehabilirate';
 
 void main() {
   runApp(MaterialApp(
+    localizationsDelegates: [
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+    ],
+    supportedLocales: [
+      Locale('ja', ''),
+    ],
     theme: ThemeData(
       primarySwatch: Colors.blue,
     ),
