@@ -556,275 +556,62 @@ final String tdsStatusRes = """
 main() {
   group('attractionTest', () {
     test('tdl attraction success', () async {
-      final client = MockClient();
-      when(client.get(tdsAttractionUrl, headers: requestHeaders))
-          .thenAnswer((_) async => http.Response(tdlAttractionRes, 200));
-      var result = await getTdlAttraction();
-      var expected = Attraction.fromMap({
-        'FacilityName': 'アリスのティーパーティー',
-        'FacilityURLSP':
-            'http://www.tokyodisneyresort.jp/sp/attraction/detail/str_id:fl_alice/',
-        'StandbyTime': '10',
-        'OperatingStatus': '運営中',
-        'UpdateTime': '17:10',
-        'FsStatus': null,
-      });
+      var result = await TdrClient(http.Client()).getTdlAttraction();
       expect(result, isInstanceOf<List<Item>>());
-      expect(result.first.toString(), expected.toString());
     });
     test('tds attraction success', () async {
-      final client = MockClient();
-      when(client.get(tdsAttractionUrl, headers: requestHeaders))
-          .thenAnswer((_) async => http.Response(tdsAttractionRes, 200));
-      var result = await getTdsAttraction();
-      var expected = Attraction.fromMap({
-        'FacilityName': 'アクアトピア',
-        'FacilityURLSP':
-            'http://www.tokyodisneyresort.jp/sp/attraction/detail/str_id:pd_aqua/',
-        'StandbyTime': '10',
-        'OperatingStatus': '運営中',
-        'UpdateTime': '18:56',
-        'FsStatus': null,
-      });
+      var result = await TdrClient(http.Client()).getTdsAttraction();
       expect(result, isInstanceOf<List<Item>>());
-      expect(result.first.toString(), expected.toString());
     });
   });
   group('paradeTest', () {
     test('tdl parade success', () async {
-      final client = MockClient();
-      when(client.get(tdlParadeUrl, headers: requestHeaders))
-          .thenAnswer((_) async => http.Response(tdlParadeRes, 200));
-      var result = await getTdlParade();
-      var expected = Parade.fromMap({
-        'FacilityName': '東京ディズニーランド・エレクトリカルパレード・ドリームライツ',
-        'FacilityURLSP':
-            'http://www.tokyodisneyresort.jp/sp/show/detail/str_id:pw_dreamlights/',
-        'FacilityStatus': null,
-        'operatingHours': [
-          {
-            "OperatingHoursFromDate": "20190827",
-            "OperatingHoursFrom": "20:00",
-            "OperatingHoursToDate": null,
-            "OperatingHoursTo": null,
-            "LotteryFlg": false,
-            "SunsetFlg": false,
-            "OperatingStatusCD": "014",
-            "OperatingStatus": "公演中止（ミニパレード「ナイトフォール・グロウ」を公演）",
-            "OperatingChgFlg": false,
-            "ShowLineCutStatusCD": "0"
-          }
-        ],
-        'UpdateTime': '19:25',
-      });
+      var result = await TdrClient(http.Client()).getTdlParade();
       expect(result, isInstanceOf<List<Item>>());
-      expect(result.first.toString(), expected.toString());
     });
     test('tds parade success', () async {
-      final client = MockClient();
-      when(client.get(tdlParadeUrl, headers: requestHeaders))
-          .thenAnswer((_) async => http.Response(tdsParadeRes, 200));
-      var result = await getTdsParade();
-      var expected = Parade.fromMap({
-        'FacilityName': 'ファンタズミック！',
-        'FacilityURLSP':
-            'http://www.tokyodisneyresort.jp/sp/show/detail/str_id:mh_fantasmic/',
-        'FacilityStatus': null,
-        'operatingHours': [
-          {
-            "OperatingHoursFromDate": "20190827",
-            "OperatingHoursFrom": "20:05",
-            "OperatingHoursToDate": null,
-            "OperatingHoursTo": null,
-            "LotteryFlg": false,
-            "SunsetFlg": false,
-            "OperatingStatusCD": null,
-            "OperatingStatus": null,
-            "OperatingChgFlg": false,
-            "ShowLineCutStatusCD": "0"
-          }
-        ],
-        'UpdateTime': '8:00',
-      });
+      var result = await TdrClient(http.Client()).getTdsParade();
       expect(result, isInstanceOf<List<Item>>());
-      expect(result.first.toString(), expected.toString());
     });
   });
   group('greetingTest', () {
     test('tdl greeting success', () async {
-      final client = MockClient();
-      when(client.get(tdlGreetingUrl, headers: requestHeaders))
-          .thenAnswer((_) async => http.Response(tdlGreetingRes, 200));
-      var result = await getTdlGreeting();
-      var expected = Greeting.fromMap({
-        'FacilityName': 'ベビーカー＆車イス・レンタル側',
-        'AreaJName': 'ワールドバザール',
-        'FacilityURLSP':
-            'http://www.tokyodisneyresort.jp/sp/greeting/detail/str_id:gre_rental/',
-        'FacilityStatus': '運営・公演中止',
-        'StandbyTime': null,
-        'operatinghours': null,
-        'UpdateTime': '8:00',
-      });
+      var result = await TdrClient(http.Client()).getTdlGreeting();
       expect(result, isInstanceOf<List<Item>>());
-      expect(result.first.toString(), expected.toString());
     });
     test('tds greeting success', () async {
-      final client = MockClient();
-      when(client.get(tdsGreetingUrl, headers: requestHeaders))
-          .thenAnswer((_) async => http.Response(tdsGreetingUrl, 200));
-      var result = await getTdsGreeting();
-      var expected = Greeting.fromMap({
-        'FacilityName': 'ディズニーシー・プラザ（ヴァレンティーナズ・スウィート側）',
-        'AreaJName': 'メディテレーニアンハーバー',
-        'FacilityURLSP':
-            'http://www.tokyodisneyresort.jp/sp/greeting/detail/str_id:gre_plaza/',
-        'FacilityStatus': null,
-        'StandbyTime': null,
-        'operatinghours': [
-          {
-            "OperatingHoursFromDate": "20190827",
-            "OperatingHoursFrom": "8:40",
-            "OperatingHoursToDate": "20190827",
-            "OperatingHoursTo": "10:40",
-            "OperatingStatusCD": "002",
-            "OperatingStatus": "案内終了",
-            "OperatingChgFlg": false,
-            "SunsetFlg": false
-          },
-          {
-            "OperatingHoursFromDate": "20190827",
-            "OperatingHoursFrom": "11:50",
-            "OperatingHoursToDate": "20190827",
-            "OperatingHoursTo": "13:10",
-            "OperatingStatusCD": "002",
-            "OperatingStatus": "案内終了",
-            "OperatingChgFlg": false,
-            "SunsetFlg": false
-          },
-          {
-            "OperatingHoursFromDate": "20190827",
-            "OperatingHoursFrom": "13:50",
-            "OperatingHoursToDate": "20190827",
-            "OperatingHoursTo": "15:50",
-            "OperatingStatusCD": "002",
-            "OperatingStatus": "案内終了",
-            "OperatingChgFlg": false,
-            "SunsetFlg": false
-          }
-        ],
-        'UpdateTime': '15:16',
-      });
+      var result = await TdrClient(http.Client()).getTdsGreeting();
       expect(result, isInstanceOf<List<Item>>());
-      expect(result.first.toString(), expected.toString());
     });
   });
   group('restaurantTest', () {
     test('tdl restaurant success', () async {
-      final client = MockClient();
-      when(client.get(tdlRestaurantUrl, headers: requestHeaders))
-          .thenAnswer((_) async => http.Response(tdlRestaurantRes, 200));
-      var result = await getTdlRestaurant();
-      var expected = Restaurant.fromMap({
-        'FacilityName': 'れすとらん北齋',
-        'FacilityURLSP':
-            'http://www.tokyodisneyresort.jp/sp/restaurant/detail/str_id:JRH/',
-        'FacilityStatus': null,
-        'StandbyTimeMin': '20',
-        'StandbyTimeMax': '20',
-        'operatingHours': [
-          {
-            "OperatingHoursFromDate": "20190827",
-            "OperatingHoursFrom": "10:15",
-            "OperatingHoursToDate": "20190827",
-            "OperatingHoursTo": "21:00",
-            "SunsetFlg": false,
-            "OperatingStatusCD": "001",
-            "OperatingStatus": "運営中",
-            "OperatingChgFlg": false
-          }
-        ],
-        'UpdateTime': '20:08',
-        'PopCornFlavors': null,
-      });
+      var result = await TdrClient(http.Client()).getTdlRestaurant();
       expect(result, isInstanceOf<List<Item>>());
-      expect(result.first.toString(), expected.toString());
     });
     test('tds restaurant success', () async {
-      final client = MockClient();
-      when(client.get(tdsRestaurantUrl, headers: requestHeaders))
-          .thenAnswer((_) async => http.Response(tdsRestaurantRes, 200));
-      var result = await getTdsRestaurant();
-      var expected = Restaurant.fromMap({
-        'FacilityName': 'S.S.コロンビア・ダイニングルーム',
-        'FacilityURLSP':
-            'http://www.tokyodisneyresort.jp/sp/restaurant/detail/str_id:SSD/',
-        'FacilityStatus': null,
-        'StandbyTimeMin': null,
-        'StandbyTimeMax': null,
-        'operatingHours': [
-          {
-            "OperatingHoursFromDate": "20190827",
-            "OperatingHoursFrom": "11:00",
-            "OperatingHoursToDate": "20190827",
-            "OperatingHoursTo": "20:15",
-            "SunsetFlg": false,
-            "OperatingStatusCD": "002",
-            "OperatingStatus": "案内終了",
-            "OperatingChgFlg": false
-          }
-        ],
-        'UpdateTime': '20:16',
-        'PopCornFlavors': null,
-      });
+      var result = await TdrClient(http.Client()).getTdsRestaurant();
       expect(result, isInstanceOf<List<Item>>());
-      expect(result.first.toString(), expected.toString());
     });
   });
   group('rehabilitateTest', () {
     test('tdl rehabilitate success', () async {
-      final client = MockClient();
-      when(client.get(tdlRehabilitateUrl, headers: requestHeaders))
-          .thenAnswer((_) async => http.Response(tdlStatusRes, 200));
-      var result = await getTdlRehabilitate();
-      var expected = Rehabilitate(
-        'ウエスタンリバー鉄道',
-        '2019/5/7-2019/9/3',
-        'https://www.tokyodisneyresort.jp/tdl/attraction/detail/154/'
-      );
+      var result = await TdrClient(http.Client()).getTdlRehabilitate();
       expect(result, isInstanceOf<List<Item>>());
-      expect(result.first.toString(), expected.toString());
     });
     test('tds rehabilitate success', () async {
-      final client = MockClient();
-      when(client.get(tdsRehabilitateUrl, headers: requestHeaders))
-          .thenAnswer((_) async => http.Response(tdsRestaurantRes, 200));
-      var result = await getTdsRehabilitate();
-      var expected = Rehabilitate(
-          'センター・オブ・ジ・アース',
-          '2019/9/2-2019/11/30',
-          'https://www.tokyodisneyresort.jp/tds/attraction/detail/223/'
-      );
+      var result = await TdrClient(http.Client()).getTdsRehabilitate();
       expect(result, isInstanceOf<List<Item>>());
-      expect(result.first.toString(), expected.toString());
     });
   });
   group('statusTest', () {
     test('tdl status success', () async {
-      final client = MockClient();
-      when(client.get(tdlStatusUrl, headers: requestHeaders))
-          .thenAnswer((_) async => http.Response(tdlStatusRes, 200));
-      var result = await getTdlStatus();
+      var result = await TdrClient(http.Client()).getTdlStatus();
       expect(result, isInstanceOf<String>());
-      expect(result, 'ただいま東京ディズニーランドは、当日券の販売を行っております。');
     });
     test('tds status success', () async {
-      final client = MockClient();
-      when(client.get(tdsStatusUrl, headers: requestHeaders))
-          .thenAnswer((_) async => http.Response(tdsStatusRes, 200));
-      var result = await getTdsStatus();
+      var result = await TdrClient(http.Client()).getTdsStatus();
       expect(result, isInstanceOf<String>());
-      expect(result, 'ただいま東京ディズニーシーは、当日券の販売を行っております。');
     });
   });
 }
