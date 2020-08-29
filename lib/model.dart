@@ -15,12 +15,12 @@ class Attraction implements Item {
   Attraction();
 
   Attraction.fromMap(Map<String, dynamic> map) {
-    this.name = map['FacilityName'];
-    this.url = map['FacilityURLSP'];
-    this.standbyTime = map['StandbyTime'].toString();
-    this.status = map['OperatingStatus'];
-    this.updateTime = map['UpdateTime'];
-    this.fsStatus = map['FsStatus'];
+    name = map['FacilityName'];
+    url = map['FacilityURLSP'];
+    standbyTime = map['StandbyTime'].toString();
+    status = map['OperatingStatus'];
+    updateTime = map['UpdateTime'];
+    fsStatus = map['FsStatus'];
   }
 
   @override
@@ -30,18 +30,18 @@ class Attraction implements Item {
 
   @override
   String getSubTitle() {
-    List<String> str = [];
-    if (standbyTime != "false" && standbyTime != "null") {
-      str.add("待ち時間: $standbyTime分");
+    var str = <String>[];
+    if (standbyTime != 'false' && standbyTime != 'null') {
+      str.add('待ち時間: $standbyTime分');
     }
     if (fsStatus != null) {
-      str.add("FP: $fsStatus");
+      str.add('FP: $fsStatus');
     }
     if (status != null) {
       str.add(status);
     }
-    str.add("更新時間: $updateTime");
-    return str.join("\n");
+    str.add('更新時間: $updateTime');
+    return str.join('\n');
   }
 
   @override
@@ -51,7 +51,7 @@ class Attraction implements Item {
 
   @override
   String toString() {
-    return "name: $name, standbyTime: $standbyTime, status: $status, update: $updateTime";
+    return 'name: $name, standbyTime: $standbyTime, status: $status, update: $updateTime';
   }
 }
 
@@ -65,11 +65,11 @@ class Parade implements Item {
   Parade();
 
   Parade.fromMap(Map<String, dynamic> map) {
-    this.name = map['FacilityName'];
-    this.url = map['FacilityURLSP'];
-    this.status = map['FacilityStatus'];
-    this.operatingHours = map['operatingHours'];
-    this.updateTime = map['UpdateTime'];
+    name = map['FacilityName'];
+    url = map['FacilityURLSP'];
+    status = map['FacilityStatus'];
+    operatingHours = map['operatingHours'];
+    updateTime = map['UpdateTime'];
   }
 
   @override
@@ -79,16 +79,16 @@ class Parade implements Item {
 
   @override
   String getSubTitle() {
-    List<String> str = [];
+    var str = <String>[];
     if (status != null) {
       str.add(status);
     }
     if (operatingHours != null) {
       operatingHours.forEach((hour) {
-        str.add("${hour['OperatingHoursFrom']} - ");
+        str.add('${hour['OperatingHoursFrom']} - ');
       });
     }
-    str.add("更新時間: $updateTime");
+    str.add('更新時間: $updateTime');
     return str.join('\n');
   }
 
@@ -99,7 +99,7 @@ class Parade implements Item {
 
   @override
   String toString() {
-    return "name: $name, status: $status, operating: $operatingHours, update: $updateTime";
+    return 'name: $name, status: $status, operating: $operatingHours, update: $updateTime';
   }
 }
 
@@ -115,13 +115,13 @@ class Greeting implements Item {
   Greeting();
 
   Greeting.fromMap(Map<String, dynamic> map) {
-    this.name = map['FacilityName'];
-    this.area = map['AreaJName'];
-    this.url = map['FacilityURLSP'];
-    this.status = map['FacilityStatus'];
-    this.standbyTime = map['StandbyTime'];
-    this.operatingHours = map['operatinghours'];
-    this.updateTime = map['UpdateTime'];
+    name = map['FacilityName'];
+    area = map['AreaJName'];
+    url = map['FacilityURLSP'];
+    status = map['FacilityStatus'];
+    standbyTime = map['StandbyTime'];
+    operatingHours = map['operatinghours'];
+    updateTime = map['UpdateTime'];
   }
 
   @override
@@ -131,22 +131,22 @@ class Greeting implements Item {
 
   @override
   String getSubTitle() {
-    List<String> str = [];
+    var str = <String>[];
     if (status != null) {
       str.add(status);
     }
     if (standbyTime != null) {
-      str.add("待ち時間: $standbyTime分");
+      str.add('待ち時間: $standbyTime分');
     }
     if (operatingHours != null) {
       operatingHours.forEach((hour) {
         var sta = hour['OperatingStatus'];
         sta ??= '';
         str.add(
-            "${hour['OperatingHoursFrom']} - ${hour['OperatingHoursTo']}\t$sta");
+            '${hour['OperatingHoursFrom']} - ${hour['OperatingHoursTo']}\t$sta');
       });
     }
-    str.add("更新時間: $updateTime");
+    str.add('更新時間: $updateTime');
     return str.join('\n');
   }
 
@@ -157,7 +157,7 @@ class Greeting implements Item {
 
   @override
   String toString() {
-    return "name: $name, area: $area, status: $status, standby: $standbyTime, operating: $operatingHours, update: $updateTime";
+    return 'name: $name, area: $area, status: $status, standby: $standbyTime, operating: $operatingHours, update: $updateTime';
   }
 }
 
@@ -174,14 +174,14 @@ class Restaurant implements Item {
   Restaurant();
 
   Restaurant.fromMap(Map<String, dynamic> map) {
-    this.name = map['FacilityName'];
-    this.url = map['FacilityURLSP'];
-    this.status = map['FacilityStatus'];
-    this.standbyTimeMin = map['StandbyTimeMin'].toString();
-    this.standbyTimeMax = map['StandbyTimeMax'].toString();
-    this.operatingHours = map['operatingHours'];
-    this.updateTime = map['UpdateTime'];
-    this.popCornFlavors = map['PopCornFlavors'];
+    name = map['FacilityName'];
+    url = map['FacilityURLSP'];
+    status = map['FacilityStatus'];
+    standbyTimeMin = map['StandbyTimeMin'].toString();
+    standbyTimeMax = map['StandbyTimeMax'].toString();
+    operatingHours = map['operatingHours'];
+    updateTime = map['UpdateTime'];
+    popCornFlavors = map['PopCornFlavors'];
   }
 
   @override
@@ -191,7 +191,7 @@ class Restaurant implements Item {
 
   @override
   String getSubTitle() {
-    List<String> str = [];
+    var str = <String>[];
     if (status != null) {
       str.add(status);
     }
@@ -199,27 +199,27 @@ class Restaurant implements Item {
     if (standbyTimeMin == 'null' && standbyTimeMax == 'null') {
       wait = null;
     } else if (standbyTimeMax == 'null') {
-      wait = "$standbyTimeMin分以上";
+      wait = '$standbyTimeMin分以上';
     } else if (standbyTimeMin == standbyTimeMax) {
-      wait = "$standbyTimeMax分";
+      wait = '$standbyTimeMax分';
     } else {
-      wait = "$standbyTimeMin - $standbyTimeMax分";
+      wait = '$standbyTimeMin - $standbyTimeMax分';
     }
     if (wait != null) {
-      str.add("待ち時間: $wait");
+      str.add('待ち時間: $wait');
     }
     if (operatingHours != null) {
       operatingHours.forEach((hour) {
         var sta = hour['OperatingStatus'];
         sta ??= '';
         str.add(
-            "${hour['OperatingHoursFrom']} - ${hour['OperatingHoursTo']}\t$sta");
+            '${hour['OperatingHoursFrom']} - ${hour['OperatingHoursTo']}\t$sta');
       });
     }
     if (popCornFlavors != null) {
       str.add(popCornFlavors);
     }
-    str.add("更新時間: $updateTime");
+    str.add('更新時間: $updateTime');
     return str.join('\n');
   }
 
@@ -230,7 +230,7 @@ class Restaurant implements Item {
 
   @override
   String toString() {
-    return "name: $name, status: $status, min: $standbyTimeMin, max: $standbyTimeMax, operating: $operatingHours, update: $updateTime";
+    return 'name: $name, status: $status, min: $standbyTimeMin, max: $standbyTimeMax, operating: $operatingHours, update: $updateTime';
   }
 }
 
@@ -258,6 +258,6 @@ class Rehabilitate implements Item {
 
   @override
   String toString() {
-    return "name: $name, date: $date";
+    return 'name: $name, date: $date';
   }
 }

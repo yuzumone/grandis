@@ -6,7 +6,7 @@ import 'package:grandis/model.dart';
 
 class MockClient extends Mock implements http.Client {}
 
-final String tdlAttractionRes = """
+final String tdlAttractionRes = '''
 [
     {
         "FacilityID": "173",
@@ -50,8 +50,8 @@ final String tdlAttractionRes = """
         ]
     }
 ]
-""";
-final String tdsAttractionRes = """
+''';
+final String tdsAttractionRes = '''
 [
     {
         "FacilityID": "234",
@@ -95,8 +95,8 @@ final String tdsAttractionRes = """
         ]
     }
 ]
-""";
-final String tdlParadeRes = """
+''';
+final String tdlParadeRes = '''
 [
     {
         "FacilityID": "913",
@@ -125,8 +125,8 @@ final String tdlParadeRes = """
         "UpdateTime": "19:25"
     }
 ]
-""";
-final String tdsParadeRes = """
+''';
+final String tdsParadeRes = '''
 [
     {
         "FacilityID": "929",
@@ -155,8 +155,8 @@ final String tdsParadeRes = """
         "UpdateTime": "8:00"
     }
 ]
-""";
-final String tdlGreetingRes = """
+''';
+final String tdlGreetingRes = '''
 {
     "id11": {
         "AreaJName": "ワールドバザール",
@@ -250,8 +250,8 @@ final String tdlGreetingRes = """
         ]
     }
 }
-""";
-final String tdsGreetingRes = """
+''';
+final String tdsGreetingRes = '''
 {
     "id21": {
         "AreaJName": "メディテレーニアンハーバー",
@@ -456,8 +456,8 @@ final String tdsGreetingRes = """
         ]
     }
 }
-""";
-final String tdlRestaurantRes = """
+''';
+final String tdlRestaurantRes = '''
 [
     {
         "FacilityID": "313",
@@ -520,8 +520,8 @@ final String tdsRestaurantRes = """
         "PopCornFlavors": null,
     }
 ]
-""";
-final String tdlRehabilitateRes = """
+''';
+final String tdlRehabilitateRes = '''
 <div class="linkList6">
   <ul>
     <li><a href="/tdl/attraction/detail/154/"><span>
@@ -529,8 +529,8 @@ final String tdlRehabilitateRes = """
     </span></a></li>
   </ul>
 </div>
-""";
-final String tdsRehabilitateRes = """
+''';
+final String tdsRehabilitateRes = '''
 <div class="linkList6">
   <ul>
     <li><a href="/tds/attraction/detail/223/"><span>
@@ -539,21 +539,21 @@ final String tdsRehabilitateRes = """
     </span></a></li>
   </ul>
 </div>
-""";
-final String tdlStatusRes = """
+''';
+final String tdlStatusRes = '''
 <div class="section-noborder">
   <h3 class="heading3">当日券販売状況</h3>
   <p>ただいま東京ディズニーランドは、当日券の販売を行っております。</p>
 </div>
-""";
-final String tdsStatusRes = """
+''';
+final String tdsStatusRes = '''
 <div class="section-noborder">
   <h3 class="heading3">当日券販売状況</h3>
   <p>ただいま東京ディズニーシーは、当日券の販売を行っております。</p>
 </div>
-""";
+''';
 
-main() {
+void main() {
   group('attractionTest', () {
     test('tdl attraction success', () async {
       var result = await TdrClient(http.Client()).getTdlAttraction();
