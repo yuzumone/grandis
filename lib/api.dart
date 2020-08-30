@@ -95,7 +95,7 @@ class TdrClient {
       headers: requestHeaders,
     );
     var data = json.decode(res.body);
-    List<Item> list = [];
+    var list = <Item>[];
     data['id11']['Facility'].forEach((x) {
       list.add(_convertGreeting(x['greeting']));
     });
@@ -114,7 +114,7 @@ class TdrClient {
       headers: requestHeaders,
     );
     var data = json.decode(res.body);
-    List<Item> list = [];
+    var list = <Item>[];
     data['id21']['Facility'].forEach((x) {
       list.add(_convertGreeting(x['greeting']));
     });
@@ -181,17 +181,17 @@ class TdrClient {
     return doc
         .querySelectorAll('div.linkList6 > ul > li')
         .map((x) {
-      try {
-        var name = x.querySelector('p').text;
-        var date =
-        x.querySelector('p.date').text.replaceAll(new RegExp(r'\s'), '');
-        var href = x.querySelector('a').attributes['href'];
-        var url = "https://www.tokyodisneyresort.jp$href";
-        return Rehabilitate(name, date, url);
-      } catch (e) {
-        return null;
-      }
-    })
+          try {
+            var name = x.querySelector('p').text;
+            var date =
+                x.querySelector('p.date').text.replaceAll(RegExp(r'\s'), '');
+            var href = x.querySelector('a').attributes['href'];
+            var url = 'https://www.tokyodisneyresort.jp$href';
+            return Rehabilitate(name, date, url);
+          } catch (e) {
+            return null;
+          }
+        })
         .where((x) => x != null)
         .toList();
   }

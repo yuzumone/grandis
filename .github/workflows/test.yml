@@ -1,0 +1,28 @@
+name: test and lint
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: 'stable'
+      - name: pub get
+        run: flutter pub get
+      - name: dartfmt
+        run: dartfmt -n --set-exit-if-changed .
+      - name: analyze
+        run: flutter analyze
+      - name: test
+        run: flutter test --verbose

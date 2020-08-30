@@ -270,7 +270,7 @@ class _TdsPageState extends State<TdsPage> with SingleTickerProviderStateMixin {
 }
 
 List<Tab> _createTabs(Map<String, List<Item>> items) {
-  List<Tab> _list = [];
+  var _list = <Tab>[];
   items.forEach((title, item) {
     _list.add(Tab(text: title));
   });
@@ -296,7 +296,7 @@ Widget _createTabBarView(String title, Map<String, List<Item>> items) {
   );
 }
 
-_launchURL(String url) async {
+void _launchURL(String url) async {
   if (await canLaunch(url)) {
     await launch(url);
   }
