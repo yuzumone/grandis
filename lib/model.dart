@@ -1,26 +1,25 @@
 class Item {
   String getTitle() => '';
   String getSubTitle() => '';
-  String getUrl() => '';
 }
 
 class Attraction implements Item {
   String name;
-  String url;
-  String standbyTime;
-  String status;
-  String updateTime;
-  String fsStatus;
+  String? standbyTime;
+  String? status;
+  String? updateTime;
+  String? fsStatus;
 
-  Attraction();
+  Attraction(
+      this.name, this.standbyTime, this.status, this.updateTime, this.fsStatus);
 
-  Attraction.fromMap(Map<String, dynamic> map) {
-    name = map['FacilityName'];
-    url = map['FacilityURLSP'];
-    standbyTime = map['StandbyTime'].toString();
-    status = map['OperatingStatus'];
-    updateTime = map['UpdateTime'];
-    fsStatus = map['FsStatus'];
+  factory Attraction.fromMap(Map<String, dynamic> map) {
+    final name = map['FacilityName'];
+    final standbyTime = map['StandbyTime'].toString();
+    final status = map['OperatingStatus'];
+    final updateTime = map['UpdateTime'];
+    final fsStatus = map['FsStatus'];
+    return Attraction(name, standbyTime, status, updateTime, fsStatus);
   }
 
   @override
@@ -38,15 +37,10 @@ class Attraction implements Item {
       str.add('FP: $fsStatus');
     }
     if (status != null) {
-      str.add(status);
+      str.add(status!);
     }
     str.add('更新時間: $updateTime');
     return str.join('\n');
-  }
-
-  @override
-  String getUrl() {
-    return url;
   }
 
   @override
@@ -57,19 +51,18 @@ class Attraction implements Item {
 
 class Parade implements Item {
   String name;
-  String url;
-  String status;
-  List<dynamic> operatingHours;
-  String updateTime;
+  String? status;
+  List<dynamic>? operatingHours;
+  String? updateTime;
 
-  Parade();
+  Parade(this.name, this.status, this.operatingHours, this.updateTime);
 
-  Parade.fromMap(Map<String, dynamic> map) {
-    name = map['FacilityName'];
-    url = map['FacilityURLSP'];
-    status = map['FacilityStatus'];
-    operatingHours = map['operatingHours'];
-    updateTime = map['UpdateTime'];
+  factory Parade.fromMap(Map<String, dynamic> map) {
+    final name = map['FacilityName'];
+    final status = map['FacilityStatus'];
+    final operatingHours = map['operatingHours'];
+    final updateTime = map['UpdateTime'];
+    return Parade(name, status, operatingHours, updateTime);
   }
 
   @override
@@ -81,20 +74,15 @@ class Parade implements Item {
   String getSubTitle() {
     var str = <String>[];
     if (status != null) {
-      str.add(status);
+      str.add(status!);
     }
     if (operatingHours != null) {
-      operatingHours.forEach((hour) {
+      operatingHours!.forEach((hour) {
         str.add('${hour['OperatingHoursFrom']} - ');
       });
     }
     str.add('更新時間: $updateTime');
     return str.join('\n');
-  }
-
-  @override
-  String getUrl() {
-    return url;
   }
 
   @override
@@ -105,23 +93,24 @@ class Parade implements Item {
 
 class Greeting implements Item {
   String name;
-  String area;
-  String url;
-  String status;
-  String standbyTime;
-  List<dynamic> operatingHours;
-  String updateTime;
+  String? area;
+  String? status;
+  String? standbyTime;
+  List<dynamic>? operatingHours;
+  String? updateTime;
 
-  Greeting();
+  Greeting(this.name, this.area, this.status, this.standbyTime,
+      this.operatingHours, this.updateTime);
 
-  Greeting.fromMap(Map<String, dynamic> map) {
-    name = map['FacilityName'];
-    area = map['AreaJName'];
-    url = map['FacilityURLSP'];
-    status = map['FacilityStatus'];
-    standbyTime = map['StandbyTime'];
-    operatingHours = map['operatinghours'];
-    updateTime = map['UpdateTime'];
+  factory Greeting.fromMap(Map<String, dynamic> map) {
+    final name = map['FacilityName'];
+    final area = map['AreaJName'];
+    final status = map['FacilityStatus'];
+    final standbyTime = map['StandbyTime'];
+    final operatingHours = map['operatinghours'];
+    final updateTime = map['UpdateTime'];
+    return Greeting(
+        name, area, status, standbyTime, operatingHours, updateTime);
   }
 
   @override
@@ -133,13 +122,13 @@ class Greeting implements Item {
   String getSubTitle() {
     var str = <String>[];
     if (status != null) {
-      str.add(status);
+      str.add(status!);
     }
     if (standbyTime != null) {
       str.add('待ち時間: $standbyTime分');
     }
     if (operatingHours != null) {
-      operatingHours.forEach((hour) {
+      operatingHours!.forEach((hour) {
         var sta = hour['OperatingStatus'];
         sta ??= '';
         str.add(
@@ -151,11 +140,6 @@ class Greeting implements Item {
   }
 
   @override
-  String getUrl() {
-    return url;
-  }
-
-  @override
   String toString() {
     return 'name: $name, area: $area, status: $status, standby: $standbyTime, operating: $operatingHours, update: $updateTime';
   }
@@ -163,25 +147,26 @@ class Greeting implements Item {
 
 class Restaurant implements Item {
   String name;
-  String url;
-  String status;
-  String standbyTimeMin;
-  String standbyTimeMax;
-  List<dynamic> operatingHours;
-  String updateTime;
-  String popCornFlavors;
+  String? status;
+  String? standbyTimeMin;
+  String? standbyTimeMax;
+  List<dynamic>? operatingHours;
+  String? updateTime;
+  String? popCornFlavors;
 
-  Restaurant();
+  Restaurant(this.name, this.status, this.standbyTimeMin, this.standbyTimeMax,
+      this.operatingHours, this.updateTime, this.popCornFlavors);
 
-  Restaurant.fromMap(Map<String, dynamic> map) {
-    name = map['FacilityName'];
-    url = map['FacilityURLSP'];
-    status = map['FacilityStatus'];
-    standbyTimeMin = map['StandbyTimeMin'].toString();
-    standbyTimeMax = map['StandbyTimeMax'].toString();
-    operatingHours = map['operatingHours'];
-    updateTime = map['UpdateTime'];
-    popCornFlavors = map['PopCornFlavors'];
+  factory Restaurant.fromMap(Map<String, dynamic> map) {
+    final name = map['FacilityName'];
+    final status = map['FacilityStatus'];
+    final standbyTimeMin = map['StandbyTimeMin'].toString();
+    final standbyTimeMax = map['StandbyTimeMax'].toString();
+    final operatingHours = map['operatingHours'];
+    final updateTime = map['UpdateTime'];
+    final popCornFlavors = map['PopCornFlavors'];
+    return Restaurant(name, status, standbyTimeMin, standbyTimeMax,
+        operatingHours, updateTime, popCornFlavors);
   }
 
   @override
@@ -193,9 +178,9 @@ class Restaurant implements Item {
   String getSubTitle() {
     var str = <String>[];
     if (status != null) {
-      str.add(status);
+      str.add(status!);
     }
-    String wait;
+    String? wait;
     if (standbyTimeMin == 'null' && standbyTimeMax == 'null') {
       wait = null;
     } else if (standbyTimeMax == 'null') {
@@ -209,7 +194,7 @@ class Restaurant implements Item {
       str.add('待ち時間: $wait');
     }
     if (operatingHours != null) {
-      operatingHours.forEach((hour) {
+      operatingHours!.forEach((hour) {
         var sta = hour['OperatingStatus'];
         sta ??= '';
         str.add(
@@ -217,15 +202,10 @@ class Restaurant implements Item {
       });
     }
     if (popCornFlavors != null) {
-      str.add(popCornFlavors);
+      str.add(popCornFlavors!);
     }
     str.add('更新時間: $updateTime');
     return str.join('\n');
-  }
-
-  @override
-  String getUrl() {
-    return url;
   }
 
   @override
@@ -237,9 +217,8 @@ class Restaurant implements Item {
 class Rehabilitate implements Item {
   String name;
   String date;
-  String url;
 
-  Rehabilitate(this.name, this.date, this.url);
+  Rehabilitate(this.name, this.date);
 
   @override
   String getTitle() {
@@ -249,11 +228,6 @@ class Rehabilitate implements Item {
   @override
   String getSubTitle() {
     return date;
-  }
-
-  @override
-  String getUrl() {
-    return url;
   }
 
   @override

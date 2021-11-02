@@ -1,10 +1,10 @@
-import 'package:mockito/mockito.dart';
-import 'package:http/http.dart' as http;
+import 'dart:io';
+
+import 'package:http/http.dart';
+import 'package:http/testing.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:grandis/api.dart';
 import 'package:grandis/model.dart';
-
-class MockClient extends Mock implements http.Client {}
 
 final String tdlAttractionRes = '''
 [
@@ -341,29 +341,6 @@ final String tdsGreetingRes = '''
             }
         ]
     },
-    "id24": {
-        "AreaJName": "ポートディスカバリー",
-        "AreaMName": "ﾎﾟｰﾄﾃﾞｨｽｶﾊﾞﾘｰ",
-        "Facility": [
-            {
-                "characterDining": {
-                    "FacilityID": "452",
-                    "FacilityName": "ホライズンベイ・レストラン（キャラクターダイニング）",
-                    "FacilityKanaName": "ﾎﾗｲｽﾞﾝﾍﾞｲ･ﾚｽﾄﾗﾝ(ｷｬﾗｸﾀｰﾀﾞｲﾆﾝｸﾞ)",
-                    "NewFlg": false,
-                    "AreaJName": "ポートディスカバリー",
-                    "AreaMName": "ﾎﾟｰﾄﾃﾞｨｽｶﾊﾞﾘｰ",
-                    "FacilityURLSP": "http://www.tokyodisneyresort.jp/sp/greeting/detail/str_id:pd_horizon/",
-                    "FacilityStatusCD": null,
-                    "FacilityStatus": null,
-                    "StandbyTime": false,
-                    "operatinghours": null,
-                    "UseStandbyTimeStyle": false,
-                    "UpdateTime": "8:00"
-                }
-            }
-        ]
-    },
     "id25": {
         "AreaJName": "ロストリバーデルタ",
         "AreaMName": "ﾛｽﾄﾘﾊﾞｰﾃﾞﾙﾀ",
@@ -372,7 +349,7 @@ final String tdsGreetingRes = '''
                 "greeting": {
                     "FacilityID": "904",
                     "FacilityName": "“サルードス・アミーゴス！”グリーティングドック",
-                    "FacilityKanaName": "“ｻﾙｰﾄﾞｽ･ｱﾐｰｺﾞｽ!\"ｸﾞﾘｰﾃｨﾝｸﾞﾄﾞｯｸ",
+                    "FacilityKanaName": "“ｻﾙｰﾄﾞｽ･ｱﾐｰｺﾞｽ!ｸﾞﾘｰﾃｨﾝｸﾞﾄﾞｯｸ",
                     "NewFlg": false,
                     "AreaJName": "ロストリバーデルタ",
                     "AreaMName": "ﾛｽﾄﾘﾊﾞｰﾃﾞﾙﾀ",
@@ -485,11 +462,11 @@ final String tdlRestaurantRes = '''
             }
         ],
         "UpdateTime": "20:08",
-        "PopCornFlavors": null,
+        "PopCornFlavors": null
     }
 ]
-""";
-final String tdsRestaurantRes = """
+''';
+final String tdsRestaurantRes = '''
 [
     {
         "FacilityID": "425",
@@ -517,7 +494,7 @@ final String tdsRestaurantRes = """
             }
         ],
         "UpdateTime": "20:16",
-        "PopCornFlavors": null,
+        "PopCornFlavors": null
     }
 ]
 ''';
@@ -556,62 +533,123 @@ final String tdsStatusRes = '''
 void main() {
   group('attractionTest', () {
     test('tdl attraction success', () async {
-      var result = await TdrClient(http.Client()).getTdlAttraction();
+      var result = await TdrClient(MockClient((_) async {
+        return Response(tdlAttractionRes, 200, headers: {
+          HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+        });
+      })).getTdlAttraction();
       expect(result, isInstanceOf<List<Item>>());
+      expect(result[0].getTitle(), 'アリスのティーパーティー');
     });
     test('tds attraction success', () async {
-      var result = await TdrClient(http.Client()).getTdsAttraction();
+      var result = await TdrClient(MockClient((_) async {
+        return Response(tdsAttractionRes, 200, headers: {
+          HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+        });
+      })).getTdsAttraction();
       expect(result, isInstanceOf<List<Item>>());
+      expect(result[0].getTitle(), 'アクアトピア');
     });
   });
   group('paradeTest', () {
     test('tdl parade success', () async {
-      var result = await TdrClient(http.Client()).getTdlParade();
+      var result = await TdrClient(MockClient((_) async {
+        return Response(tdlParadeRes, 200, headers: {
+          HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+        });
+      })).getTdlParade();
       expect(result, isInstanceOf<List<Item>>());
+      expect(result[0].getTitle(), '東京ディズニーランド・エレクトリカルパレード・ドリームライツ');
     });
     test('tds parade success', () async {
-      var result = await TdrClient(http.Client()).getTdsParade();
+      var result = await TdrClient(MockClient((_) async {
+        return Response(tdsParadeRes, 200, headers: {
+          HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+        });
+      })).getTdsParade();
       expect(result, isInstanceOf<List<Item>>());
+      expect(result[0].getTitle(), 'ファンタズミック！');
     });
   });
   group('greetingTest', () {
     test('tdl greeting success', () async {
-      var result = await TdrClient(http.Client()).getTdlGreeting();
+      var result = await TdrClient(MockClient((_) async {
+        return Response(tdlGreetingRes, 200, headers: {
+          HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+        });
+      })).getTdlGreeting();
       expect(result, isInstanceOf<List<Item>>());
+      expect(result[0].getTitle(), 'ベビーカー＆車イス・レンタル側');
     });
     test('tds greeting success', () async {
-      var result = await TdrClient(http.Client()).getTdsGreeting();
+      var result = await TdrClient(MockClient((_) async {
+        return Response(tdsGreetingRes, 200, headers: {
+          HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+        });
+      })).getTdsGreeting();
       expect(result, isInstanceOf<List<Item>>());
+      expect(result[0].getTitle(), 'ディズニーシー・プラザ（ヴァレンティーナズ・スウィート側）');
     });
   });
   group('restaurantTest', () {
     test('tdl restaurant success', () async {
-      var result = await TdrClient(http.Client()).getTdlRestaurant();
+      var result = await TdrClient(MockClient((_) async {
+        return Response(tdlRestaurantRes, 200, headers: {
+          HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+        });
+      })).getTdlRestaurant();
       expect(result, isInstanceOf<List<Item>>());
+      expect(result[0].getTitle(), 'れすとらん北齋');
     });
     test('tds restaurant success', () async {
-      var result = await TdrClient(http.Client()).getTdsRestaurant();
+      var result = await TdrClient(MockClient((_) async {
+        return Response(tdsRestaurantRes, 200, headers: {
+          HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+        });
+      })).getTdsRestaurant();
       expect(result, isInstanceOf<List<Item>>());
+      expect(result[0].getTitle(), 'S.S.コロンビア・ダイニングルーム');
     });
   });
   group('rehabilitateTest', () {
     test('tdl rehabilitate success', () async {
-      var result = await TdrClient(http.Client()).getTdlRehabilitate();
+      var result = await TdrClient(MockClient((_) async {
+        return Response(tdlRehabilitateRes, 200, headers: {
+          HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+        });
+      })).getTdlRehabilitate();
       expect(result, isInstanceOf<List<Item>>());
+      expect(result[0].getTitle(), 'ウエスタンリバー鉄道');
     });
     test('tds rehabilitate success', () async {
-      var result = await TdrClient(http.Client()).getTdsRehabilitate();
+      var result = await TdrClient(MockClient((_) async {
+        return Response(tdsRehabilitateRes, 200, headers: {
+          HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+        });
+      })).getTdsRehabilitate();
       expect(result, isInstanceOf<List<Item>>());
+      expect(result[0].getTitle(), 'センター・オブ・ジ・アース');
     });
   });
   group('statusTest', () {
     test('tdl status success', () async {
-      var result = await TdrClient(http.Client()).getTdlStatus();
+      var client = TdrClient(MockClient((_) async {
+        return Response(tdlStatusRes, 200, headers: {
+          HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+        });
+      }));
+      var result = await client.getTdlStatus();
       expect(result, isInstanceOf<String>());
+      expect(result, 'ただいま東京ディズニーランドは、当日券の販売を行っております。');
     });
     test('tds status success', () async {
-      var result = await TdrClient(http.Client()).getTdsStatus();
+      var result = await TdrClient(MockClient((_) async {
+        return Response(tdsStatusRes, 200, headers: {
+          HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+        });
+      })).getTdsStatus();
       expect(result, isInstanceOf<String>());
+      expect(result, 'ただいま東京ディズニーシーは、当日券の販売を行っております。');
     });
   });
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'api.dart';
@@ -79,9 +78,10 @@ class _HomePageState extends State<HomePage> {
               Expanded(
                 child: Container(
                   margin: const EdgeInsets.all(8.0),
-                  child: RaisedButton(
-                    textColor: Colors.white,
-                    color: Colors.pink,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.pink,
+                    ),
                     onPressed: () {
                       Navigator.of(context).pushNamed('/tdl');
                     },
@@ -94,9 +94,10 @@ class _HomePageState extends State<HomePage> {
               Expanded(
                 child: Container(
                   margin: const EdgeInsets.all(8.0),
-                  child: RaisedButton(
-                    textColor: Colors.white,
-                    color: Colors.blue,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.blue,
+                    ),
                     onPressed: () {
                       Navigator.of(context).pushNamed('/tds');
                     },
@@ -141,8 +142,8 @@ class _HomePageState extends State<HomePage> {
 }
 
 class _TdlPageState extends State<TdlPage> with SingleTickerProviderStateMixin {
-  TabController _tabController;
-  Map<String, List<Item>> items = {
+  TabController? _tabController;
+  Map<String, List<Item?>> items = {
     attractionTitle: [],
     paradeTitle: [],
     greetingTitle: [],
@@ -207,8 +208,8 @@ class _TdlPageState extends State<TdlPage> with SingleTickerProviderStateMixin {
 }
 
 class _TdsPageState extends State<TdsPage> with SingleTickerProviderStateMixin {
-  TabController _tabController;
-  Map<String, List<Item>> items = {
+  TabController? _tabController;
+  Map<String, List<Item?>> items = {
     attractionTitle: [],
     paradeTitle: [],
     greetingTitle: [],
@@ -269,7 +270,7 @@ class _TdsPageState extends State<TdsPage> with SingleTickerProviderStateMixin {
   }
 }
 
-List<Tab> _createTabs(Map<String, List<Item>> items) {
+List<Tab> _createTabs(Map<String, List<Item?>> items) {
   var _list = <Tab>[];
   items.forEach((title, item) {
     _list.add(Tab(text: title));
@@ -277,27 +278,18 @@ List<Tab> _createTabs(Map<String, List<Item>> items) {
   return _list;
 }
 
-Widget _createTabBarView(String title, Map<String, List<Item>> items) {
-  var _list = items[title];
+Widget _createTabBarView(String title, Map<String, List<Item?>> items) {
+  var _list = items[title]!;
   return Container(
     child: ListView.builder(
       itemCount: _list.length,
       itemBuilder: (BuildContext context, int index) {
-        var item = _list[index];
+        var item = _list[index]!;
         return ListTile(
           title: Text(item.getTitle()),
           subtitle: Text(item.getSubTitle()),
-          onTap: () {
-            _launchURL(item.getUrl());
-          },
         );
       },
     ),
   );
-}
-
-void _launchURL(String url) async {
-  if (await canLaunch(url)) {
-    await launch(url);
-  }
 }
