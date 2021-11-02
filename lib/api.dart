@@ -46,8 +46,9 @@ class TdrClient {
   TdrClient(this.client);
 
   Future<List<Item>> getTdlAttraction() async {
+    final uri = Uri.parse(tdlAttractionUrl);
     var res = await client.get(
-      tdlAttractionUrl,
+      uri,
       headers: requestHeaders,
     );
     List<dynamic> data = json.decode(res.body);
@@ -55,8 +56,9 @@ class TdrClient {
   }
 
   Future<List<Item>> getTdsAttraction() async {
+    final uri = Uri.parse(tdsAttractionUrl);
     var res = await client.get(
-      tdsAttractionUrl,
+      uri,
       headers: requestHeaders,
     );
     List<dynamic> data = json.decode(res.body);
@@ -68,8 +70,9 @@ class TdrClient {
   }
 
   Future<List<Item>> getTdlParade() async {
+    final uri = Uri.parse(tdlParadeUrl);
     var res = await client.get(
-      tdlParadeUrl,
+      uri,
       headers: requestHeaders,
     );
     List<dynamic> data = json.decode(res.body);
@@ -77,8 +80,9 @@ class TdrClient {
   }
 
   Future<List<Item>> getTdsParade() async {
+    final uri = Uri.parse(tdsParadeUrl);
     var res = await client.get(
-      tdsParadeUrl,
+      uri,
       headers: requestHeaders,
     );
     List<dynamic> data = json.decode(res.body);
@@ -90,45 +94,31 @@ class TdrClient {
   }
 
   Future<List<Item>> getTdlGreeting() async {
+    final uri = Uri.parse(tdlGreetingUrl);
     var res = await client.get(
-      tdlGreetingUrl,
+      uri,
       headers: requestHeaders,
     );
     var data = json.decode(res.body);
     var list = <Item>[];
-    data['id11']['Facility'].forEach((x) {
-      list.add(_convertGreeting(x['greeting']));
-    });
-    data['id13']['Facility'].forEach((x) {
-      list.add(_convertGreeting(x['greeting']));
-    });
-    data['id16']['Facility'].forEach((x) {
-      list.add(_convertGreeting(x['greeting']));
+    data.forEach((k, v) {
+      var facility = v['Facility'];
+      facility.forEach((x) => list.add(_convertGreeting(x['greeting'])));
     });
     return list;
   }
 
   Future<List<Item>> getTdsGreeting() async {
+    final uri = Uri.parse(tdsGreetingUrl);
     var res = await client.get(
-      tdsGreetingUrl,
+      uri,
       headers: requestHeaders,
     );
     var data = json.decode(res.body);
     var list = <Item>[];
-    data['id21']['Facility'].forEach((x) {
-      list.add(_convertGreeting(x['greeting']));
-    });
-    data['id22']['Facility'].forEach((x) {
-      list.add(_convertGreeting(x['greeting']));
-    });
-    data['id25']['Facility'].forEach((x) {
-      list.add(_convertGreeting(x['greeting']));
-    });
-    data['id26']['Facility'].forEach((x) {
-      list.add(_convertGreeting(x['greeting']));
-    });
-    data['id27']['Facility'].forEach((x) {
-      list.add(_convertGreeting(x['greeting']));
+    data.forEach((k, v) {
+      var facility = v['Facility'];
+      facility.forEach((x) => list.add(_convertGreeting(x['greeting'])));
     });
     return list;
   }
@@ -138,8 +128,9 @@ class TdrClient {
   }
 
   Future<List<Item>> getTdlRestaurant() async {
+    final uri = Uri.parse(tdsRestaurantUrl);
     var res = await client.get(
-      tdlRestaurantUrl,
+      uri,
       headers: requestHeaders,
     );
     List<dynamic> data = json.decode(res.body);
@@ -147,8 +138,9 @@ class TdrClient {
   }
 
   Future<List<Item>> getTdsRestaurant() async {
+    final uri = Uri.parse(tdsRestaurantUrl);
     var res = await client.get(
-      tdsRestaurantUrl,
+      uri,
       headers: requestHeaders,
     );
     List<dynamic> data = json.decode(res.body);
@@ -160,8 +152,9 @@ class TdrClient {
   }
 
   Future<List<Item>> getTdlRehabilitate() async {
+    final uri = Uri.parse(tdlRehabilitateUrl);
     var res = await client.get(
-      tdlRehabilitateUrl,
+      uri,
       headers: requestHeaders,
     );
     var doc = html.parse(res.body);
@@ -169,8 +162,9 @@ class TdrClient {
   }
 
   Future<List<Item>> getTdsRehabilitate() async {
+    final uri = Uri.parse(tdsRehabilitateUrl);
     var res = await client.get(
-      tdsRehabilitateUrl,
+      uri,
       headers: requestHeaders,
     );
     var doc = html.parse(res.body);
@@ -178,39 +172,39 @@ class TdrClient {
   }
 
   List<Rehabilitate> _parseRehabilitates(Document doc) {
-    return doc
-        .querySelectorAll('div.linkList6 > ul > li')
-        .map((x) {
-          try {
-            var name = x.querySelector('p').text;
-            var date =
-                x.querySelector('p.date').text.replaceAll(RegExp(r'\s'), '');
-            var href = x.querySelector('a').attributes['href'];
-            var url = 'https://www.tokyodisneyresort.jp$href';
-            return Rehabilitate(name, date, url);
-          } catch (e) {
-            return null;
-          }
-        })
-        .where((x) => x != null)
-        .toList();
+    var result = <Rehabilitate>[];
+    for (var item in doc.querySelectorAll('div.linkList6 > ul > li')) {
+      try {
+        final name = item.querySelector('p')?.text;
+        final date =
+            item.querySelector('p.date')?.text.replaceAll(RegExp(r'\s'), '');
+        if (name != null && date != null) {
+          result.add(Rehabilitate(name, date));
+        }
+      } catch (e) {
+        return result;
+      }
+    }
+    return result;
   }
 
   Future<String> getTdlStatus() async {
+    final uri = Uri.parse(tdlStatusUrl);
     var res = await client.get(
-      tdlStatusUrl,
+      uri,
       headers: requestHeaders,
     );
     var doc = html.parse(res.body);
-    return doc.querySelector('p').text;
+    return doc.querySelector('p')!.text;
   }
 
   Future<String> getTdsStatus() async {
+    final uri = Uri.parse(tdsStatusUrl);
     var res = await client.get(
-      tdsStatusUrl,
+      uri,
       headers: requestHeaders,
     );
     var doc = html.parse(res.body);
-    return doc.querySelector('p').text;
+    return doc.querySelector('p')!.text;
   }
 }
