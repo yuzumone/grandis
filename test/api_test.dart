@@ -1,10 +1,10 @@
 import 'dart:io';
 
+import 'package:grandis/data/model/item.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:grandis/api.dart';
-import 'package:grandis/model.dart';
 
 final String tdlAttractionRes = '''
 [

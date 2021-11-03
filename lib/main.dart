@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:grandis/data/model/item.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'api.dart';
-import 'model.dart';
 
 final attractionTitle = 'attraction';
 final paradeTitle = 'parade';

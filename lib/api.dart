@@ -1,9 +1,14 @@
+import 'package:grandis/data/model/attraction.dart';
+import 'package:grandis/data/model/greeting.dart';
+import 'package:grandis/data/model/item.dart';
+import 'package:grandis/data/model/parade.dart';
+import 'package:grandis/data/model/rehabilitate.dart';
+import 'package:grandis/data/model/restaurant.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as html;
 import 'package:html/dom.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'model.dart';
 
 final String tdlAttractionUrl =
     'https://www.tokyodisneyresort.jp/_/realtime/tdl_attraction.json';
@@ -52,7 +57,7 @@ class TdrClient {
       headers: requestHeaders,
     );
     List<dynamic> data = json.decode(res.body);
-    return data.map((x) => _convertAttraction(x)).toList();
+    return data.map((x) => Attraction.fromJson(x)).toList();
   }
 
   Future<List<Item>> getTdsAttraction() async {
@@ -62,11 +67,7 @@ class TdrClient {
       headers: requestHeaders,
     );
     List<dynamic> data = json.decode(res.body);
-    return data.map((x) => _convertAttraction(x)).toList();
-  }
-
-  Attraction _convertAttraction(Map<String, dynamic> map) {
-    return Attraction.fromMap(map);
+    return data.map((x) => Attraction.fromJson(x)).toList();
   }
 
   Future<List<Item>> getTdlParade() async {
@@ -76,7 +77,7 @@ class TdrClient {
       headers: requestHeaders,
     );
     List<dynamic> data = json.decode(res.body);
-    return data.map((x) => _convertParade(x)).toList();
+    return data.map((x) => Parade.fromJson(x)).toList();
   }
 
   Future<List<Item>> getTdsParade() async {
@@ -86,11 +87,7 @@ class TdrClient {
       headers: requestHeaders,
     );
     List<dynamic> data = json.decode(res.body);
-    return data.map((x) => _convertParade(x)).toList();
-  }
-
-  Parade _convertParade(Map<String, dynamic> map) {
-    return Parade.fromMap(map);
+    return data.map((x) => Parade.fromJson(x)).toList();
   }
 
   Future<List<Item>> getTdlGreeting() async {
@@ -103,7 +100,7 @@ class TdrClient {
     var list = <Item>[];
     data.forEach((k, v) {
       var facility = v['Facility'];
-      facility.forEach((x) => list.add(_convertGreeting(x['greeting'])));
+      facility.forEach((x) => list.add(Greeting.fromJson(x['greeting'])));
     });
     return list;
   }
@@ -118,23 +115,19 @@ class TdrClient {
     var list = <Item>[];
     data.forEach((k, v) {
       var facility = v['Facility'];
-      facility.forEach((x) => list.add(_convertGreeting(x['greeting'])));
+      facility.forEach((x) => list.add(Greeting.fromJson(x['greeting'])));
     });
     return list;
   }
 
-  Greeting _convertGreeting(Map<String, dynamic> map) {
-    return Greeting.fromMap(map);
-  }
-
   Future<List<Item>> getTdlRestaurant() async {
-    final uri = Uri.parse(tdsRestaurantUrl);
+    final uri = Uri.parse(tdlRestaurantUrl);
     var res = await client.get(
       uri,
       headers: requestHeaders,
     );
     List<dynamic> data = json.decode(res.body);
-    return data.map((x) => _convertRestaurant(x)).toList();
+    return data.map((x) => Restaurant.fromJson(x)).toList();
   }
 
   Future<List<Item>> getTdsRestaurant() async {
@@ -144,11 +137,7 @@ class TdrClient {
       headers: requestHeaders,
     );
     List<dynamic> data = json.decode(res.body);
-    return data.map((x) => _convertRestaurant(x)).toList();
-  }
-
-  Restaurant _convertRestaurant(Map<String, dynamic> map) {
-    return Restaurant.fromMap(map);
+    return data.map((x) => Restaurant.fromJson(x)).toList();
   }
 
   Future<List<Item>> getTdlRehabilitate() async {
