@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:grandis/data/model/item.dart';
+import 'package:grandis/data/model/park_type.dart';
+import 'package:grandis/data/repository/tdr_repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'api.dart';
 
 final attractionTitle = 'attraction';
 final paradeTitle = 'parade';
@@ -52,13 +53,13 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    var client = TdrClient(http.Client());
-    client.getTdlStatus().then((status) {
+    var client = TdrRepository(client: http.Client());
+    client.getStatus(ParkType.TDL).then((status) {
       setState(() {
         _tdlStatus = status;
       });
     });
-    client.getTdsStatus().then((status) {
+    client.getStatus(ParkType.TDS).then((status) {
       setState(() {
         _tdsStatus = status;
       });
@@ -155,28 +156,29 @@ class _TdlPageState extends State<TdlPage> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     _tabController = TabController(length: items.length, vsync: this);
-    var client = TdrClient(http.Client());
-    client.getTdlAttraction().then((attractions) {
+    var client = TdrRepository(client: http.Client());
+    final type = ParkType.TDL;
+    client.getAttraction(type).then((attractions) {
       setState(() {
         items[attractionTitle] = attractions;
       });
     });
-    client.getTdlParade().then((parades) {
+    client.getParade(type).then((parades) {
       setState(() {
         items[paradeTitle] = parades;
       });
     });
-    client.getTdlGreeting().then((greetings) {
+    client.getGreeting(type).then((greetings) {
       setState(() {
         items[greetingTitle] = greetings;
       });
     });
-    client.getTdlRestaurant().then((restaurants) {
+    client.getRestaurant(type).then((restaurants) {
       setState(() {
         items[restaurantTitle] = restaurants;
       });
     });
-    client.getTdlRehabilitate().then((rehabilitates) {
+    client.getRehabilitate(type).then((rehabilitates) {
       rehabilitates.forEach((x) {
         setState(() {
           items[rehabilitateTitle] = rehabilitates;
@@ -221,28 +223,29 @@ class _TdsPageState extends State<TdsPage> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     _tabController = TabController(length: items.length, vsync: this);
-    var client = TdrClient(http.Client());
-    client.getTdsAttraction().then((attractions) {
+    var client = TdrRepository(client: http.Client());
+    var type = ParkType.TDS;
+    client.getAttraction(type).then((attractions) {
       setState(() {
         items[attractionTitle] = attractions;
       });
     });
-    client.getTdsParade().then((parades) {
+    client.getParade(type).then((parades) {
       setState(() {
         items[paradeTitle] = parades;
       });
     });
-    client.getTdsGreeting().then((greetings) {
+    client.getGreeting(type).then((greetings) {
       setState(() {
         items[greetingTitle] = greetings;
       });
     });
-    client.getTdsRestaurant().then((restaurants) {
+    client.getRestaurant(type).then((restaurants) {
       setState(() {
         items[restaurantTitle] = restaurants;
       });
     });
-    client.getTdsRehabilitate().then((rehabilitates) {
+    client.getRehabilitate(type).then((rehabilitates) {
       setState(() {
         items[rehabilitateTitle] = rehabilitates;
       });

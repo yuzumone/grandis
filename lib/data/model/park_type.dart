@@ -1,0 +1,4 @@
+enum ParkType {
+  TDL,
+  TDS,
+}

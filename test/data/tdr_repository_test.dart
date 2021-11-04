@@ -1,12 +1,14 @@
 import 'dart:io';
 
 import 'package:grandis/data/model/item.dart';
+import 'package:grandis/data/model/park_type.dart';
+import 'package:grandis/data/repository/tdr_repository.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:grandis/api.dart';
 
-final String tdlAttractionRes = '''
+void main() {
+  final tdlAttractionRes = '''
 [
     {
         "FacilityID": "173",
@@ -51,7 +53,7 @@ final String tdlAttractionRes = '''
     }
 ]
 ''';
-final String tdsAttractionRes = '''
+  final tdsAttractionRes = '''
 [
     {
         "FacilityID": "234",
@@ -96,7 +98,7 @@ final String tdsAttractionRes = '''
     }
 ]
 ''';
-final String tdlParadeRes = '''
+  final tdlParadeRes = '''
 [
     {
         "FacilityID": "913",
@@ -126,7 +128,7 @@ final String tdlParadeRes = '''
     }
 ]
 ''';
-final String tdsParadeRes = '''
+  final tdsParadeRes = '''
 [
     {
         "FacilityID": "929",
@@ -156,7 +158,7 @@ final String tdsParadeRes = '''
     }
 ]
 ''';
-final String tdlGreetingRes = '''
+  final tdlGreetingRes = '''
 {
     "id11": {
         "AreaJName": "ワールドバザール",
@@ -251,7 +253,7 @@ final String tdlGreetingRes = '''
     }
 }
 ''';
-final String tdsGreetingRes = '''
+  final tdsGreetingRes = '''
 {
     "id21": {
         "AreaJName": "メディテレーニアンハーバー",
@@ -434,7 +436,7 @@ final String tdsGreetingRes = '''
     }
 }
 ''';
-final String tdlRestaurantRes = '''
+  final tdlRestaurantRes = '''
 [
     {
         "FacilityID": "313",
@@ -466,7 +468,7 @@ final String tdlRestaurantRes = '''
     }
 ]
 ''';
-final String tdsRestaurantRes = '''
+  final tdsRestaurantRes = '''
 [
     {
         "FacilityID": "425",
@@ -498,7 +500,7 @@ final String tdsRestaurantRes = '''
     }
 ]
 ''';
-final String tdlRehabilitateRes = '''
+  final tdlRehabilitateRes = '''
 <div class="linkList6">
   <ul>
     <li><a href="/tdl/attraction/detail/154/"><span>
@@ -507,7 +509,7 @@ final String tdlRehabilitateRes = '''
   </ul>
 </div>
 ''';
-final String tdsRehabilitateRes = '''
+  final tdsRehabilitateRes = '''
 <div class="linkList6">
   <ul>
     <li><a href="/tds/attraction/detail/223/"><span>
@@ -517,139 +519,162 @@ final String tdsRehabilitateRes = '''
   </ul>
 </div>
 ''';
-final String tdlStatusRes = '''
+  final tdlStatusRes = '''
 <div class="section-noborder">
   <h3 class="heading3">当日券販売状況</h3>
   <p>ただいま東京ディズニーランドは、当日券の販売を行っております。</p>
 </div>
 ''';
-final String tdsStatusRes = '''
+  final tdsStatusRes = '''
 <div class="section-noborder">
   <h3 class="heading3">当日券販売状況</h3>
   <p>ただいま東京ディズニーシーは、当日券の販売を行っております。</p>
 </div>
 ''';
 
-void main() {
-  group('attractionTest', () {
-    test('tdl attraction success', () async {
-      var result = await TdrClient(MockClient((_) async {
+  group('TdrRepository Test', () {
+    test('tdl attraction', () async {
+      final mockClient = MockClient((_) async {
         return Response(tdlAttractionRes, 200, headers: {
           HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
         });
-      })).getTdlAttraction();
-      expect(result, isInstanceOf<List<Item>>());
-      expect(result[0].getTitle(), 'アリスのティーパーティー');
+      });
+      final actual =
+          await TdrRepository(client: mockClient).getAttraction(ParkType.TDL);
+      expect(actual, isInstanceOf<List<Item>>());
+      expect(actual[0].getTitle(), 'アリスのティーパーティー');
     });
-    test('tds attraction success', () async {
-      var result = await TdrClient(MockClient((_) async {
+
+    test('tds attraction', () async {
+      final mockClient = MockClient((_) async {
         return Response(tdsAttractionRes, 200, headers: {
           HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
         });
-      })).getTdsAttraction();
-      expect(result, isInstanceOf<List<Item>>());
-      expect(result[0].getTitle(), 'アクアトピア');
+      });
+      final actual =
+          await TdrRepository(client: mockClient).getAttraction(ParkType.TDS);
+      expect(actual, isInstanceOf<List<Item>>());
+      expect(actual[0].getTitle(), 'アクアトピア');
     });
-  });
-  group('paradeTest', () {
-    test('tdl parade success', () async {
-      var result = await TdrClient(MockClient((_) async {
+
+    test('tdl parade', () async {
+      final mockClient = MockClient((_) async {
         return Response(tdlParadeRes, 200, headers: {
           HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
         });
-      })).getTdlParade();
-      expect(result, isInstanceOf<List<Item>>());
-      expect(result[0].getTitle(), '東京ディズニーランド・エレクトリカルパレード・ドリームライツ');
+      });
+      final actual =
+          await TdrRepository(client: mockClient).getParade(ParkType.TDL);
+      expect(actual, isInstanceOf<List<Item>>());
+      expect(actual[0].getTitle(), '東京ディズニーランド・エレクトリカルパレード・ドリームライツ');
     });
-    test('tds parade success', () async {
-      var result = await TdrClient(MockClient((_) async {
+
+    test('tds parade', () async {
+      final mockClient = MockClient((_) async {
         return Response(tdsParadeRes, 200, headers: {
           HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
         });
-      })).getTdsParade();
-      expect(result, isInstanceOf<List<Item>>());
-      expect(result[0].getTitle(), 'ファンタズミック！');
+      });
+      final actual =
+          await TdrRepository(client: mockClient).getParade(ParkType.TDS);
+      expect(actual, isInstanceOf<List<Item>>());
+      expect(actual[0].getTitle(), 'ファンタズミック！');
     });
-  });
-  group('greetingTest', () {
-    test('tdl greeting success', () async {
-      var result = await TdrClient(MockClient((_) async {
+
+    test('tdl greeting', () async {
+      final mockClient = MockClient((_) async {
         return Response(tdlGreetingRes, 200, headers: {
           HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
         });
-      })).getTdlGreeting();
-      expect(result, isInstanceOf<List<Item>>());
-      expect(result[0].getTitle(), 'ベビーカー＆車イス・レンタル側');
+      });
+      final actual =
+          await TdrRepository(client: mockClient).getGreeting(ParkType.TDL);
+      expect(actual, isInstanceOf<List<Item>>());
+      expect(actual[0].getTitle(), 'ベビーカー＆車イス・レンタル側');
     });
-    test('tds greeting success', () async {
-      var result = await TdrClient(MockClient((_) async {
+
+    test('tds greeting', () async {
+      final mockClient = MockClient((_) async {
         return Response(tdsGreetingRes, 200, headers: {
           HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
         });
-      })).getTdsGreeting();
-      expect(result, isInstanceOf<List<Item>>());
-      expect(result[0].getTitle(), 'ディズニーシー・プラザ（ヴァレンティーナズ・スウィート側）');
+      });
+      final actual =
+          await TdrRepository(client: mockClient).getGreeting(ParkType.TDS);
+      expect(actual, isInstanceOf<List<Item>>());
+      expect(actual[0].getTitle(), 'ディズニーシー・プラザ（ヴァレンティーナズ・スウィート側）');
     });
-  });
-  group('restaurantTest', () {
-    test('tdl restaurant success', () async {
-      var result = await TdrClient(MockClient((_) async {
+
+    test('tdl restaurant', () async {
+      final mockClient = MockClient((_) async {
         return Response(tdlRestaurantRes, 200, headers: {
           HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
         });
-      })).getTdlRestaurant();
-      expect(result, isInstanceOf<List<Item>>());
-      expect(result[0].getTitle(), 'れすとらん北齋');
+      });
+      final actual =
+          await TdrRepository(client: mockClient).getRestaurant(ParkType.TDL);
+      expect(actual, isInstanceOf<List<Item>>());
+      expect(actual[0].getTitle(), 'れすとらん北齋');
     });
-    test('tds restaurant success', () async {
-      var result = await TdrClient(MockClient((_) async {
+
+    test('tds restaurant', () async {
+      final mockClient = MockClient((_) async {
         return Response(tdsRestaurantRes, 200, headers: {
           HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
         });
-      })).getTdsRestaurant();
-      expect(result, isInstanceOf<List<Item>>());
-      expect(result[0].getTitle(), 'S.S.コロンビア・ダイニングルーム');
+      });
+      final actual =
+          await TdrRepository(client: mockClient).getRestaurant(ParkType.TDS);
+      expect(actual, isInstanceOf<List<Item>>());
+      expect(actual[0].getTitle(), 'S.S.コロンビア・ダイニングルーム');
     });
-  });
-  group('rehabilitateTest', () {
-    test('tdl rehabilitate success', () async {
-      var result = await TdrClient(MockClient((_) async {
+
+    test('tdl rehabilitate', () async {
+      final mockClient = MockClient((_) async {
         return Response(tdlRehabilitateRes, 200, headers: {
           HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
         });
-      })).getTdlRehabilitate();
-      expect(result, isInstanceOf<List<Item>>());
-      expect(result[0].getTitle(), 'ウエスタンリバー鉄道');
+      });
+      final actual =
+          await TdrRepository(client: mockClient).getRehabilitate(ParkType.TDL);
+      expect(actual, isInstanceOf<List<Item>>());
+      expect(actual[0].getTitle(), 'ウエスタンリバー鉄道');
     });
-    test('tds rehabilitate success', () async {
-      var result = await TdrClient(MockClient((_) async {
+
+    test('tds rehabilitate', () async {
+      final mockClient = MockClient((_) async {
         return Response(tdsRehabilitateRes, 200, headers: {
           HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
         });
-      })).getTdsRehabilitate();
-      expect(result, isInstanceOf<List<Item>>());
-      expect(result[0].getTitle(), 'センター・オブ・ジ・アース');
+      });
+      final actual =
+          await TdrRepository(client: mockClient).getRehabilitate(ParkType.TDL);
+      expect(actual, isInstanceOf<List<Item>>());
+      expect(actual[0].getTitle(), 'センター・オブ・ジ・アース');
     });
-  });
-  group('statusTest', () {
-    test('tdl status success', () async {
-      var client = TdrClient(MockClient((_) async {
+
+    test('tdl status', () async {
+      final mockClient = MockClient((_) async {
         return Response(tdlStatusRes, 200, headers: {
           HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
         });
-      }));
-      var result = await client.getTdlStatus();
-      expect(result, isInstanceOf<String>());
-      expect(result, 'ただいま東京ディズニーランドは、当日券の販売を行っております。');
+      });
+      final actual =
+          await TdrRepository(client: mockClient).getStatus(ParkType.TDL);
+      expect(actual, isInstanceOf<String>());
+      expect(actual, 'ただいま東京ディズニーランドは、当日券の販売を行っております。');
     });
-    test('tds status success', () async {
-      var result = await TdrClient(MockClient((_) async {
+
+    test('tds status', () async {
+      final mockClient = MockClient((_) async {
         return Response(tdsStatusRes, 200, headers: {
           HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
         });
-      })).getTdsStatus();
-      expect(result, isInstanceOf<String>());
-      expect(result, 'ただいま東京ディズニーシーは、当日券の販売を行っております。');
+      });
+      final actual =
+          await TdrRepository(client: mockClient).getStatus(ParkType.TDS);
+      expect(actual, isInstanceOf<String>());
+      expect(actual, 'ただいま東京ディズニーシーは、当日券の販売を行っております。');
     });
   });
 }
