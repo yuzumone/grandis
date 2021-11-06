@@ -5,11 +5,14 @@ import 'package:grandis/data/model/parade.dart';
 import 'package:grandis/data/model/park_type.dart';
 import 'package:grandis/data/model/rehabilitate.dart';
 import 'package:grandis/data/model/restaurant.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:http/http.dart';
 import 'package:html/parser.dart' as html;
 import 'package:html/dom.dart';
 import 'dart:async';
 import 'dart:convert';
+
+final tdrRepositoryProvider = Provider((_) => TdrRepository(client: Client()));
 
 class TdrRepository {
   final String _tdlAttractionUrl =
