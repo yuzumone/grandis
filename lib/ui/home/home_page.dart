@@ -1,8 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:grandis/data/model/park_type.dart';
-import 'package:grandis/ui/detail/detail_page.dart';
 import 'package:grandis/ui/home/home_view_model.dart';
+import 'package:grandis/ui/route/app_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class HomePage extends HookConsumerWidget {
@@ -10,6 +11,7 @@ class HomePage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final router = AutoRouter.of(context);
     final homeViewModel = ref.read(homeViewModelProvider);
     final tdlStatus =
         ref.watch(homeViewModelProvider.select((value) => value.tdlStatus));
@@ -39,12 +41,7 @@ class HomePage extends HookConsumerWidget {
                       primary: Colors.pink,
                     ),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                DetailPage(type: ParkType.TDL)),
-                      );
+                      router.push(DetailRoute(type: ParkType.TDL));
                     },
                     child: const Text(
                       'ディズニーランド',
@@ -60,12 +57,7 @@ class HomePage extends HookConsumerWidget {
                       primary: Colors.blue,
                     ),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                DetailPage(type: ParkType.TDS)),
-                      );
+                      router.push(DetailRoute(type: ParkType.TDS));
                     },
                     child: const Text(
                       'ディズニーシー',
