@@ -1,4 +1,5 @@
 import 'package:grandis/data/model/attraction.dart';
+import 'package:grandis/data/model/goods.dart';
 import 'package:grandis/data/model/greeting.dart';
 import 'package:grandis/data/model/item.dart';
 import 'package:grandis/data/model/parade.dart';
@@ -39,6 +40,14 @@ class TdrRepository {
       'https://www.tokyodisneyresort.jp/view_interface.php?blockId=94199&pageBlockId=135360';
   final String _tdsStatusUrl =
       'https://www.tokyodisneyresort.jp/view_interface.php?blockId=94199&pageBlockId=135410';
+  final String _tdlSoonUrl =
+      'https://www.tokyodisneyresort.jp/view_interface.php?blockId=94199&pageBlockId=2084564';
+  final String _tdsSoonUrl =
+      'https://www.tokyodisneyresort.jp/view_interface.php?blockId=94199&pageBlockId=2084606';
+  final String _tdlNewUrl =
+      'https://www.tokyodisneyresort.jp/view_interface.php?blockId=94199&pageBlockId=2084578';
+  final String _tdsNewUrl =
+      'https://www.tokyodisneyresort.jp/view_interface.php?blockId=94199&pageBlockId=2084634';
   final Map<String, String> _requestHeaders = {
     'User-Agent':
         'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36',
@@ -187,5 +196,80 @@ class TdrRepository {
     );
     final doc = html.parse(res.body).querySelector('p');
     return doc != null ? doc.text : '';
+  }
+
+  String _getNewUrl(ParkType type) {
+    switch (type) {
+      case ParkType.TDL:
+        return _tdlNewUrl;
+      case ParkType.TDS:
+        return _tdsNewUrl;
+    }
+  }
+
+  Future<List<Item>> getNewGoods(ParkType type) async {
+    var offset = 0;
+    var goods = <Goods>[];
+    final url = _getNewUrl(type);
+    do {
+      final res = await client.get(
+        Uri.parse('$url&offset=$offset'),
+        headers: _requestHeaders,
+      );
+      final doc = html.parse(utf8.decode(res.bodyBytes));
+      final list = doc.querySelectorAll('li');
+      goods.addAll(_parseGoods(list));
+      if (list.isEmpty) {
+        break;
+      }
+      offset += list.length;
+    } while (offset % 48 == 0);
+    return goods;
+  }
+
+  String _getSoonUrl(ParkType type) {
+    switch (type) {
+      case ParkType.TDL:
+        return _tdlSoonUrl;
+      case ParkType.TDS:
+        return _tdsSoonUrl;
+    }
+  }
+
+  Future<List<Item>> getSoon(ParkType type) async {
+    var offset = 0;
+    var goods = <Goods>[];
+    final url = _getSoonUrl(type);
+    do {
+      final res = await client.get(
+        Uri.parse('$url&offset=$offset'),
+        headers: _requestHeaders,
+      );
+      final doc = html.parse(utf8.decode(res.bodyBytes));
+      final list = doc.querySelectorAll('li');
+      goods.addAll(_parseGoods(list));
+      if (list.isEmpty) {
+        break;
+      }
+      offset += list.length;
+    } while (offset % 48 == 0);
+    return goods;
+  }
+
+  List<Goods> _parseGoods(List<Element> list) {
+    var goods = <Goods>[];
+    for (var g in list) {
+      final name = g.querySelector('span')?.text;
+      final price = g.querySelector('p.price')?.text;
+      final href = g.querySelector('a')?.attributes['href'];
+      final regexp = RegExp('(.+より販売開始)');
+      final date = regexp.firstMatch(g.text)?.group(1)?.trim();
+      final url = 'https://www.tokyodisneyresort.jp$href';
+      final image = g.querySelector('img')?.attributes['src'];
+      if (name != null && price != null && href != null && image != null) {
+        goods.add(Goods(name, url, image, price, date));
+      }
+    }
+    return goods;
   }
 }

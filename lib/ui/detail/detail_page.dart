@@ -4,6 +4,7 @@ import 'package:grandis/data/model/item.dart';
 import 'package:grandis/data/model/park_type.dart';
 import 'package:grandis/ui/detail/detail_view_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DetailPage extends HookConsumerWidget {
   const DetailPage({required ParkType this.type, Key? key}) : super(key: key);
@@ -23,12 +24,18 @@ class DetailPage extends HookConsumerWidget {
         ref.watch(detailViewModelProvider.select((value) => value.restaurant));
     final rehabilitate = ref
         .watch(detailViewModelProvider.select((value) => value.rehabilitate));
+    final newGoods =
+        ref.watch(detailViewModelProvider.select((value) => value.newGoods));
+    final soonGoods =
+        ref.watch(detailViewModelProvider.select((value) => value.soonGoods));
     final tabs = <String, List<Item>?>{
       'attraction': attraction,
       'parade': parade,
       'greeting': greeting,
       'restaurant': restaurant,
       'rehabilitate': rehabilitate,
+      'new': newGoods,
+      'soon': soonGoods,
     };
 
     final snapshot = useFuture(useMemoized(
@@ -38,6 +45,8 @@ class DetailPage extends HookConsumerWidget {
               detailViewModel.getGreeting(type),
               detailViewModel.getRestaurant(type),
               detailViewModel.getRehabilitate(type),
+              detailViewModel.getNewGoods(type),
+              detailViewModel.getSoon(type),
             ]),
         [type]));
 
@@ -79,21 +88,44 @@ class DetailPage extends HookConsumerWidget {
       child: ListView.builder(
         itemCount: items.length,
         itemBuilder: (BuildContext context, int index) {
-          var item = items[index];
-          return Container(
-            margin: const EdgeInsets.only(
-                left: 16.0, top: 8.0, right: 16.0, bottom: 8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(item.getTitle()),
-                SizedBox(height: 4.0),
-                Text(item.getSubTitle()),
-              ],
+          final item = items[index];
+          return InkWell(
+            child: Container(
+              margin: const EdgeInsets.only(
+                  left: 16.0, top: 8.0, right: 16.0, bottom: 8.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  item.getImage().isEmpty
+                      ? SizedBox()
+                      : Container(
+                          width: 112,
+                          height: 112,
+                          child: Image.network(item.getImage()),
+                        ),
+                  SizedBox(width: item.getImage().isEmpty ? 0 : 8.0),
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(item.getTitle()),
+                        SizedBox(height: 4.0),
+                        Text(item.getSubTitle()),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
+            onTap: () {
+              if (item.getUrl().isNotEmpty) _launchURL(item.getUrl());
+            },
           );
         },
       ),
     );
   }
+
+  void _launchURL(String url) async =>
+      await canLaunch(url) ? await launch(url) : throw 'Could not launch $url';
 }
