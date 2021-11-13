@@ -23,6 +23,10 @@ class DetailViewModel extends ChangeNotifier {
   List<Item>? get restaurant => _restaurant;
   List<Item>? _rehabilitate;
   List<Item>? get rehabilitate => _rehabilitate;
+  List<Item>? _newGoods;
+  List<Item>? get newGoods => _newGoods;
+  List<Item>? _soonGoods;
+  List<Item>? get soonGoods => _soonGoods;
 
   Future<void> getAttraction(ParkType type) {
     return _repository
@@ -56,6 +60,20 @@ class DetailViewModel extends ChangeNotifier {
     return _repository
         .getRehabilitate(type)
         .then((value) => _rehabilitate = value)
+        .whenComplete(notifyListeners);
+  }
+
+  Future<void> getNewGoods(ParkType type) {
+    return _repository
+        .getNewGoods(type)
+        .then((value) => _newGoods = value)
+        .whenComplete(notifyListeners);
+  }
+
+  Future<void> getSoon(ParkType type) {
+    return _repository
+        .getSoon(type)
+        .then((value) => _soonGoods = value)
         .whenComplete(notifyListeners);
   }
 }

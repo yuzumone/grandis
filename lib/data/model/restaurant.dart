@@ -73,6 +73,16 @@ class Restaurant implements Item {
   }
 
   @override
+  String getImage() {
+    return '';
+  }
+
+  @override
+  String getUrl() {
+    return '';
+  }
+
+  @override
   String toString() {
     return 'name: $name, status: $status, min: $standbyTimeMin, max: $standbyTimeMax, operating: $operatingHours, update: $updateTime';
   }

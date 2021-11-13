@@ -57,6 +57,16 @@ class Greeting implements Item {
   }
 
   @override
+  String getImage() {
+    return '';
+  }
+
+  @override
+  String getUrl() {
+    return '';
+  }
+
+  @override
   String toString() {
     return 'name: $name, area: $area, status: $status, standby: $standbyTime, operating: $operatingHours, update: $updateTime';
   }

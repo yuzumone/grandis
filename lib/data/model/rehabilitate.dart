@@ -17,6 +17,16 @@ class Rehabilitate implements Item {
   }
 
   @override
+  String getImage() {
+    return '';
+  }
+
+  @override
+  String getUrl() {
+    return '';
+  }
+
+  @override
   String toString() {
     return 'name: $name, date: $date';
   }

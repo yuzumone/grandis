@@ -531,6 +531,60 @@ void main() {
   <p>ただいま東京ディズニーシーは、当日券の販売を行っております。</p>
 </div>
 ''';
+  final newGoodsRes = '''
+<body>
+  <div class="linkList13">
+    <ul class="list-block">
+      <li>
+        <a href="/goods/123013558/">
+          <div class="imgarea">
+            <div class="maskSquare">
+              <img src="https://media1.tokyodisneyresort.jp/images/adventure/goods/60e3f3ec44439_1.jpg?mod=20211105100003" alt="くっつきぬいぐるみのイメージ">
+            </div>
+          </div>
+          <div class="columnText mt10">
+            <p class="linkText"><span>くっつきぬいぐるみ</span><span class="new">NEW</span></p>
+            <p class="price">￥1,800</p>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="button-block center">
+    <div class="button mt0"><a href="javascript:void(0)" class="more" data-count="48" data-tags="">ウェブサイトでもっと見る</a></div>
+    </div>
+  <div class="button-block center">
+    <div class="button mt0"><a href="https://share.shopping.tokyodisneyresort.jp/landing/landing.html?start=1">
+      アプリですべてのグッズを見る</a>
+    </div>
+  </div>
+</body>
+''';
+  final soonGoodsRes = '''
+<html>
+  <head></head>
+  <body>
+    <div class="linkList13">
+      <ul class="list-block">
+        <li>
+          <a href="/goods/115000668/">
+            <div class="imgarea">
+              <div class="maskSquare">
+                <img src="https://media1.tokyodisneyresort.jp/images/adventure/goods/612847884d621_1.jpg?mod=20211105100003" alt="キーチェーンのイメージ">
+              </div>
+            </div>
+            <div class="columnText mt10">
+              <p class="linkText"><span>キーチェーン</span></p>
+              <p class="price">￥1,200</p>
+              <p>2021年11月18日より販売開始</p>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>
+''';
 
   group('TdrRepository Test', () {
     test('tdl attraction', () async {
@@ -675,6 +729,54 @@ void main() {
           await TdrRepository(client: mockClient).getStatus(ParkType.TDS);
       expect(actual, isInstanceOf<String>());
       expect(actual, 'ただいま東京ディズニーシーは、当日券の販売を行っております。');
+    });
+
+    test('tdl new', () async {
+      final mockClient = MockClient((_) async {
+        return Response(newGoodsRes, 200, headers: {
+          HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+        });
+      });
+      final actual =
+          await TdrRepository(client: mockClient).getNewGoods(ParkType.TDL);
+      expect(actual, isInstanceOf<List<Item>>());
+      expect(actual[0].getTitle(), 'くっつきぬいぐるみ');
+    });
+
+    test('tds new', () async {
+      final mockClient = MockClient((_) async {
+        return Response(newGoodsRes, 200, headers: {
+          HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+        });
+      });
+      final actual =
+          await TdrRepository(client: mockClient).getNewGoods(ParkType.TDS);
+      expect(actual, isInstanceOf<List<Item>>());
+      expect(actual[0].getTitle(), 'くっつきぬいぐるみ');
+    });
+
+    test('tdl soon', () async {
+      final mockClient = MockClient((_) async {
+        return Response(soonGoodsRes, 200, headers: {
+          HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+        });
+      });
+      final actual =
+          await TdrRepository(client: mockClient).getSoon(ParkType.TDL);
+      expect(actual, isInstanceOf<List<Item>>());
+      expect(actual[0].getTitle(), 'キーチェーン');
+    });
+
+    test('tds soon', () async {
+      final mockClient = MockClient((_) async {
+        return Response(soonGoodsRes, 200, headers: {
+          HttpHeaders.contentTypeHeader: 'application/json; charset=utf-8',
+        });
+      });
+      final actual =
+          await TdrRepository(client: mockClient).getSoon(ParkType.TDS);
+      expect(actual, isInstanceOf<List<Item>>());
+      expect(actual[0].getTitle(), 'キーチェーン');
     });
   });
 }

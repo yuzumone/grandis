@@ -49,6 +49,16 @@ class Attraction implements Item {
   }
 
   @override
+  String getImage() {
+    return '';
+  }
+
+  @override
+  String getUrl() {
+    return '';
+  }
+
+  @override
   String toString() {
     return 'name: $name, standbyTime: $standbyTime, status: $status, update: $updateTime';
   }
