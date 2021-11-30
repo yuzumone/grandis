@@ -1,0 +1,29 @@
+name: release note
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  release:
+    if: github.event.pull_request.merged == true && contains(github.head_ref, 'release')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: set version
+        id: tag
+        run: |
+          echo ::set-output name=tag::$(grep '##' CHANGELOG.md | head -n1 | cut -d ' ' -f2)
+      - name: set changelog
+        id: changelog
+        run: |
+          cat CHANGELOG.md | sed -n -e '1,/^$/p' | sed -e '/^#/d' -e '/^$/d' > ${{ github.workspace }}-note.txt
+      - name: create release note
+        uses: softprops/action-gh-release@v0.1.14
+        with:
+          tag_name: ${{ steps.tag.outputs.tag }}
+          name: ${{ steps.tag.outputs.tag }}
+          body_path: ${{ github.workspace }}-note.txt
+          draft: false
+          prerelease: false
