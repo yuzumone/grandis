@@ -5,6 +5,7 @@ import 'package:grandis/data/model/park_type.dart';
 import 'package:grandis/ui/home/home_view_model.dart';
 import 'package:grandis/ui/route/app_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class HomePage extends HookConsumerWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -28,6 +29,24 @@ class HomePage extends HookConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('grandis'),
+        actions: [
+          PopupMenuButton(
+            onSelected: (_) {
+              PackageInfo.fromPlatform().then((value) => showAboutDialog(
+                    context: context,
+                    applicationName: value.appName,
+                    applicationVersion: value.version,
+                    applicationLegalese: 'yuzumone',
+                  ));
+            },
+            itemBuilder: (_) => [
+              PopupMenuItem(
+                value: 0,
+                child: Text('License'),
+              ),
+            ],
+          ),
+        ],
       ),
       body: Column(
         children: <Widget>[
