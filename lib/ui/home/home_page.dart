@@ -57,7 +57,7 @@ class HomePage extends HookConsumerWidget {
                   margin: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.pink,
+                      backgroundColor: Colors.pink,
                     ),
                     onPressed: () {
                       router.push(DetailRoute(type: ParkType.TDL));
@@ -73,7 +73,7 @@ class HomePage extends HookConsumerWidget {
                   margin: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.blue,
+                      backgroundColor: Colors.blue,
                     ),
                     onPressed: () {
                       router.push(DetailRoute(type: ParkType.TDS));
