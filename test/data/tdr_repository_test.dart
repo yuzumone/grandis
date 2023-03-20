@@ -501,23 +501,40 @@ void main() {
 ]
 ''';
   final tdlRehabilitateRes = '''
-<div class="linkList6">
+<div class="linkList linkList33">
   <ul>
-    <li><a href="/tdl/attraction/detail/154/"><span>
-    <p>ウエスタンリバー鉄道</p><p class="date">2019/5/7 - 2019/9/3<br></p>
-    </span></a></li>
+    <li>
+      <a href="/tdl/attraction/detail/155/">
+        <img src="https://media1.tokyodisneyresort.jp/images/adventure/attraction/271_thum_name.jpg?mod=20230131122152" alt="">
+        <div class="listTextArea">
+        <p class="heading3">スイスファミリー・ツリーハウス</p>
+        <p>
+2022/4/1
+- 未定
+        </p>
+        </div>
+      </a>
+    </li>
   </ul>
-</div>
+</dev>
 ''';
   final tdsRehabilitateRes = '''
-<div class="linkList6">
+<div class="linkList linkList33">
   <ul>
-    <li><a href="/tds/attraction/detail/223/"><span>
-    <p>センター・オブ・ジ・アース</p>
-    <p class="date">2019/9/2 - 2019/11/30<br></p>
-    </span></a></li>
+    <li>
+      <a href="/tds/attraction/detail/221/">
+        <img src="https://media1.tokyodisneyresort.jp/images/adventure/attraction/361_thum_name.jpg?mod=20230131122305" alt="">
+        <div class="listTextArea">
+          <p class="heading3">マーメイドラグーンシアター</p>
+          <p>
+2020/7/1
+- 未定
+          </p>
+        </div>
+      </a>
+    </li>
   </ul>
-</div>
+</dev>
 ''';
   final tdlStatusRes = '''
 <div class="section-noborder">
@@ -692,7 +709,7 @@ void main() {
       final actual =
           await TdrRepository(client: mockClient).getRehabilitate(ParkType.TDL);
       expect(actual, isInstanceOf<List<Item>>());
-      expect(actual[0].getTitle(), 'ウエスタンリバー鉄道');
+      expect(actual[0].getTitle(), 'スイスファミリー・ツリーハウス');
     });
 
     test('tds rehabilitate', () async {
@@ -704,7 +721,7 @@ void main() {
       final actual =
           await TdrRepository(client: mockClient).getRehabilitate(ParkType.TDL);
       expect(actual, isInstanceOf<List<Item>>());
-      expect(actual[0].getTitle(), 'センター・オブ・ジ・アース');
+      expect(actual[0].getTitle(), 'マーメイドラグーンシアター');
     });
 
     test('tdl status', () async {

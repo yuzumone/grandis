@@ -164,16 +164,18 @@ class TdrRepository {
 
   List<Rehabilitate> _parseRehabilitates(Document doc) {
     var result = <Rehabilitate>[];
-    for (var item in doc.querySelectorAll('div.linkList6 > ul > li')) {
+    for (var item in doc.querySelectorAll('div.linkList > ul > li')) {
       try {
-        final name = item.querySelector('p')?.text;
-        final date =
-            item.querySelector('p.date')?.text.replaceAll(RegExp(r'\s'), '');
-        if (name != null && date != null) {
+        final name = item.querySelector('p.heading3')?.text;
+        final date = item
+            .querySelectorAll('p')[1]
+            .text
+            .replaceAll(RegExp('(\t|\n)'), '');
+        if (name != null) {
           result.add(Rehabilitate(name, date));
         }
       } catch (e) {
-        return result;
+        continue;
       }
     }
     return result;
