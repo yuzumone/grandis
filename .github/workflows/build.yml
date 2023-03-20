@@ -1,12 +1,13 @@
 name: build
 
 on:
-  push:
-    branches:
-      - master
+  pull_request:
+    types:
+      - closed
 
 jobs:
   build:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -26,8 +27,17 @@ jobs:
       - name: build apk
         run: flutter build apk --build-number ${GITHUB_RUN_NUMBER}
       - name: deploygate
+        if: ${{ !contains(github.head_ref, 'release') }}
         run: |
           curl \
           -H "Authorization: token ${{secrets.DEPLOYGATE_API_KEY}}" \
           -F "file=@build/app/outputs/flutter-apk/app-release.apk" \
+          "https://deploygate.com/api/users/yuzumone/apps"
+      - name: deploygate and update distribution
+        if: ${{ contains(github.head_ref, 'release') }}
+        run: |
+          curl \
+          -H "Authorization: token ${{secrets.DEPLOYGATE_API_KEY}}" \
+          -F "file=@build/app/outputs/flutter-apk/app-release.apk" \
+          --form-string "distribution_key=c9134daaa2fb6ea07bb05dd7fb1cd05af74d4604" \
           "https://deploygate.com/api/users/yuzumone/apps"
