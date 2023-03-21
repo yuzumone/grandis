@@ -537,15 +537,43 @@ void main() {
 </dev>
 ''';
   final tdlStatusRes = '''
-<div class="section-noborder">
-  <h3 class="heading3">当日券販売状況</h3>
-  <p>ただいま東京ディズニーランドは、当日券の販売を行っております。</p>
+<div class="state-left">
+    <div class="texArea">
+      <dl>
+        <dt style="width: 128px;">本日の開園時間</dt>
+                  <dd style="width: 145px;">
+                                9:00 - 21:00                 </dd>
+              </dl>
+              <dl>
+        <dt style="width: 128px;">チケット販売状況</dt>
+        <dd class="remaining is-soldout sun" style="width: 145px;">
+          売り切れ
+                  </dd>
+      </dl>
+            </div>
+        <div class="weather-icon">
+      <img src="https://media2.tokyodisneyresort.jp/weather/icon_svg/weather_icon100.svg">
+    </div>
 </div>
 ''';
   final tdsStatusRes = '''
-<div class="section-noborder">
-  <h3 class="heading3">当日券販売状況</h3>
-  <p>ただいま東京ディズニーシーは、当日券の販売を行っております。</p>
+<div class="state-left">
+    <div class="texArea">
+      <dl>
+        <dt style="width: 128px;">本日の開園時間</dt>
+                  <dd style="width: 145px;">
+                                9:00 - 21:00                 </dd>
+              </dl>
+              <dl>
+        <dt style="width: 128px;">チケット販売状況</dt>
+        <dd class="remaining is-notSales " style="width: 145px;">
+          販売なし
+                  </dd>
+      </dl>
+            </div>
+        <div class="weather-icon">
+      <img src="https://media2.tokyodisneyresort.jp/weather/icon_svg/weather_icon100.svg">
+    </div>
 </div>
 ''';
   final newGoodsRes = '''
@@ -733,7 +761,7 @@ void main() {
       final actual =
           await TdrRepository(client: mockClient).getStatus(ParkType.TDL);
       expect(actual, isInstanceOf<String>());
-      expect(actual, 'ただいま東京ディズニーランドは、当日券の販売を行っております。');
+      expect(actual, '本日の開園時間: 9:00 - 21:00\nチケット販売状況: 売り切れ');
     });
 
     test('tds status', () async {
@@ -745,7 +773,7 @@ void main() {
       final actual =
           await TdrRepository(client: mockClient).getStatus(ParkType.TDS);
       expect(actual, isInstanceOf<String>());
-      expect(actual, 'ただいま東京ディズニーシーは、当日券の販売を行っております。');
+      expect(actual, '本日の開園時間: 9:00 - 21:00\nチケット販売状況: 販売なし');
     });
 
     test('tdl new', () async {

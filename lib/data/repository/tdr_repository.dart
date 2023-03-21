@@ -36,10 +36,8 @@ class TdrRepository {
       'https://www.tokyodisneyresort.jp/tdl/monthly/stop.html';
   final String _tdsRehabilitateUrl =
       'https://www.tokyodisneyresort.jp/tds/monthly/stop.html';
-  final String _tdlStatusUrl =
-      'https://www.tokyodisneyresort.jp/view_interface.php?blockId=94199&pageBlockId=135360';
-  final String _tdsStatusUrl =
-      'https://www.tokyodisneyresort.jp/view_interface.php?blockId=94199&pageBlockId=135410';
+  final String _tdlStatusUrl = 'https://www.tokyodisneyresort.jp/tdl/';
+  final String _tdsStatusUrl = 'https://www.tokyodisneyresort.jp/tds/';
   final String _tdlSoonUrl =
       'https://www.tokyodisneyresort.jp/view_interface.php?blockId=94199&pageBlockId=2084564';
   final String _tdsSoonUrl =
@@ -196,8 +194,13 @@ class TdrRepository {
       Uri.parse(url),
       headers: _requestHeaders,
     );
-    final doc = html.parse(res.body).querySelector('p');
-    return doc != null ? doc.text : '';
+    final doc = html.parse(res.body).querySelector('div.state-left');
+    final body = <String>[];
+    for (var item in doc?.querySelectorAll('dl') ?? []) {
+      body.add(
+          '${item.querySelector("dt").text}: ${item.querySelector("dd").text.trim()}');
+    }
+    return body.isNotEmpty ? body.join('\n') : '';
   }
 
   String _getNewUrl(ParkType type) {
