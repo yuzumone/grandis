@@ -1,4 +1,4 @@
-## 2.0.2-dev
+## 2.0.2
 - Fix rehabilitate
 - Fix status
 
