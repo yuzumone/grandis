@@ -39,7 +39,7 @@ class HomePage extends HookConsumerWidget {
                     applicationLegalese: 'yuzumone',
                   ));
             },
-            itemBuilder: (_) => [
+            itemBuilder: (_) => const [
               PopupMenuItem(
                 value: 0,
                 child: Text('License'),
@@ -90,7 +90,7 @@ class HomePage extends HookConsumerWidget {
             child: snapshot.connectionState == ConnectionState.waiting ||
                     tdlStatus == null ||
                     tdsStatus == null
-                ? SizedBox()
+                ? const SizedBox()
                 : Flexible(
                     child: Container(
                       margin: const EdgeInsets.all(16.0),
@@ -98,7 +98,7 @@ class HomePage extends HookConsumerWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            DefaultTextStyle(
+                            const DefaultTextStyle(
                               style: TextStyle(
                                 color: Colors.black87,
                                 fontSize: 16.0,
@@ -107,8 +107,8 @@ class HomePage extends HookConsumerWidget {
                               child: Text('TDL'),
                             ),
                             Text(tdlStatus),
-                            SizedBox(height: 8.0),
-                            DefaultTextStyle(
+                            const SizedBox(height: 8.0),
+                            const DefaultTextStyle(
                               style: TextStyle(
                                 color: Colors.black87,
                                 fontSize: 16.0,

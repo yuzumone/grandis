@@ -59,11 +59,11 @@ class Restaurant implements Item {
       str.add('待ち時間: $wait');
     }
     if (operatingHours != null) {
-      operatingHours!.forEach((hour) {
+      for (var hour in operatingHours ?? []) {
         var sta = hour.operatingStatus;
         sta ??= '';
         str.add('${hour.operatingHoursFrom} - ${hour.operatingHoursTo}\t$sta');
-      });
+      }
     }
     if (popCornFlavors != null) {
       str.add(popCornFlavors!);

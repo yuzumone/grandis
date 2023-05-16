@@ -8,7 +8,7 @@ import 'package:http/testing.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  final tdlAttractionRes = '''
+  const String tdlAttractionRes = '''
 [
     {
         "FacilityID": "173",
@@ -53,7 +53,7 @@ void main() {
     }
 ]
 ''';
-  final tdsAttractionRes = '''
+  const String tdsAttractionRes = '''
 [
     {
         "FacilityID": "234",
@@ -98,7 +98,7 @@ void main() {
     }
 ]
 ''';
-  final tdlParadeRes = '''
+  const String tdlParadeRes = '''
 [
     {
         "FacilityID": "913",
@@ -128,7 +128,7 @@ void main() {
     }
 ]
 ''';
-  final tdsParadeRes = '''
+  const String tdsParadeRes = '''
 [
     {
         "FacilityID": "929",
@@ -158,7 +158,7 @@ void main() {
     }
 ]
 ''';
-  final tdlGreetingRes = '''
+  const String tdlGreetingRes = '''
 {
     "id11": {
         "AreaJName": "ワールドバザール",
@@ -253,7 +253,7 @@ void main() {
     }
 }
 ''';
-  final tdsGreetingRes = '''
+  const String tdsGreetingRes = '''
 {
     "id21": {
         "AreaJName": "メディテレーニアンハーバー",
@@ -436,7 +436,7 @@ void main() {
     }
 }
 ''';
-  final tdlRestaurantRes = '''
+  const String tdlRestaurantRes = '''
 [
     {
         "FacilityID": "313",
@@ -468,7 +468,7 @@ void main() {
     }
 ]
 ''';
-  final tdsRestaurantRes = '''
+  const String tdsRestaurantRes = '''
 [
     {
         "FacilityID": "425",
@@ -500,7 +500,7 @@ void main() {
     }
 ]
 ''';
-  final tdlRehabilitateRes = '''
+  const String tdlRehabilitateRes = '''
 <div class="linkList linkList33">
   <ul>
     <li>
@@ -518,7 +518,7 @@ void main() {
   </ul>
 </dev>
 ''';
-  final tdsRehabilitateRes = '''
+  const String tdsRehabilitateRes = '''
 <div class="linkList linkList33">
   <ul>
     <li>
@@ -536,7 +536,7 @@ void main() {
   </ul>
 </dev>
 ''';
-  final tdlStatusRes = '''
+  const String tdlStatusRes = '''
 <div class="state-left">
     <div class="texArea">
       <dl>
@@ -556,7 +556,7 @@ void main() {
     </div>
 </div>
 ''';
-  final tdsStatusRes = '''
+  const String tdsStatusRes = '''
 <div class="state-left">
     <div class="texArea">
       <dl>
@@ -576,7 +576,7 @@ void main() {
     </div>
 </div>
 ''';
-  final newGoodsRes = '''
+  const String newGoodsRes = '''
 <body>
   <div class="linkList13">
     <ul class="list-block">
@@ -605,7 +605,7 @@ void main() {
   </div>
 </body>
 ''';
-  final soonGoodsRes = '''
+  const String soonGoodsRes = '''
 <html>
   <head></head>
   <body>

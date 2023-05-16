@@ -46,11 +46,11 @@ class Greeting implements Item {
       str.add('待ち時間: $standbyTime分');
     }
     if (operatingHours != null) {
-      operatingHours!.forEach((hour) {
+      for (var hour in operatingHours ?? []) {
         var sta = hour.operatingStatus;
         sta ??= '';
         str.add('${hour.operatingHoursFrom} - ${hour.operatingHoursTo}\t$sta');
-      });
+      }
     }
     str.add('更新時間: $updateTime');
     return str.join('\n');
