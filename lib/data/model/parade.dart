@@ -31,9 +31,9 @@ class Parade implements Item {
       str.add(status!);
     }
     if (operatingHours != null) {
-      operatingHours!.forEach((hour) {
+      for (var hour in operatingHours ?? []) {
         str.add('${hour.operatingHoursFrom} - ');
-      });
+      }
     }
     str.add('更新時間: $updateTime');
     return str.join('\n');

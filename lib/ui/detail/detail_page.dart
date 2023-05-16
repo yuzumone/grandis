@@ -7,9 +7,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DetailPage extends HookConsumerWidget {
-  const DetailPage({required ParkType this.type, Key? key}) : super(key: key);
+  const DetailPage({required this.type, Key? key}) : super(key: key);
 
-  final type;
+  final ParkType type;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -65,7 +65,7 @@ class DetailPage extends HookConsumerWidget {
           ),
           body: TabBarView(
             children: snapshot.connectionState == ConnectionState.waiting
-                ? tabs.keys.map((e) => SizedBox()).toList()
+                ? tabs.keys.map((e) => const SizedBox()).toList()
                 : tabs.values.map((e) => _createTabBarView(e)).toList(),
           ),
         );
@@ -83,46 +83,44 @@ class DetailPage extends HookConsumerWidget {
   }
 
   Widget _createTabBarView(List<Item>? items) {
-    if (items == null) return SizedBox();
-    return Container(
-      child: ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (BuildContext context, int index) {
-          final item = items[index];
-          return InkWell(
-            child: Container(
-              margin: const EdgeInsets.only(
-                  left: 16.0, top: 8.0, right: 16.0, bottom: 8.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  item.getImage().isEmpty
-                      ? SizedBox()
-                      : Container(
-                          width: 112,
-                          height: 112,
-                          child: Image.network(item.getImage()),
-                        ),
-                  SizedBox(width: item.getImage().isEmpty ? 0 : 8.0),
-                  Flexible(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(item.getTitle()),
-                        SizedBox(height: 4.0),
-                        Text(item.getSubTitle()),
-                      ],
-                    ),
+    if (items == null) return const SizedBox();
+    return ListView.builder(
+      itemCount: items.length,
+      itemBuilder: (BuildContext context, int index) {
+        final item = items[index];
+        return InkWell(
+          child: Container(
+            margin: const EdgeInsets.only(
+                left: 16.0, top: 8.0, right: 16.0, bottom: 8.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                item.getImage().isEmpty
+                    ? const SizedBox()
+                    : SizedBox(
+                        width: 112,
+                        height: 112,
+                        child: Image.network(item.getImage()),
+                      ),
+                SizedBox(width: item.getImage().isEmpty ? 0 : 8.0),
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(item.getTitle()),
+                      const SizedBox(height: 4.0),
+                      Text(item.getSubTitle()),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            onTap: () {
-              if (item.getUrl().isNotEmpty) _launchURL(item.getUrl());
-            },
-          );
-        },
-      ),
+          ),
+          onTap: () {
+            if (item.getUrl().isNotEmpty) _launchURL(item.getUrl());
+          },
+        );
+      },
     );
   }
 
