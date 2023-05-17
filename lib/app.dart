@@ -22,8 +22,7 @@ class App extends HookConsumerWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      routeInformationParser: appRouter.defaultRouteParser(),
-      routerDelegate: appRouter.delegate(),
+      routerConfig: appRouter.config(),
     );
   }
 }

@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:grandis/data/model/park_type.dart';
 import 'package:grandis/ui/home/home_view_model.dart';
-import 'package:grandis/ui/route/app_router.dart';
+import 'package:grandis/ui/route/app_router.gr.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+@RoutePage()
 class HomePage extends HookConsumerWidget {
   const HomePage({Key? key}) : super(key: key);
 

@@ -4,6 +4,7 @@ import 'package:grandis/app.dart';
 import 'package:grandis/ui/home/home_page.dart';
 import 'package:grandis/ui/home/home_view_model.dart';
 import 'package:grandis/ui/route/app_router.dart';
+import 'package:grandis/ui/route/app_router.gr.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mocktail/mocktail.dart';
 

@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:grandis/data/model/item.dart';
@@ -6,6 +7,7 @@ import 'package:grandis/ui/detail/detail_view_model.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+@RoutePage()
 class DetailPage extends HookConsumerWidget {
   const DetailPage({required this.type, Key? key}) : super(key: key);
 
