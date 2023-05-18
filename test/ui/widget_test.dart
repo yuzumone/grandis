@@ -21,7 +21,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          homeViewModelProvider.overrideWithValue(mockHomeViewModel),
+          homeViewModelProvider.overrideWith((ref) => mockHomeViewModel),
         ],
         child: const App(),
       ),
@@ -33,7 +33,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          homeViewModelProvider.overrideWithValue(mockHomeViewModel),
+          homeViewModelProvider.overrideWith((ref) => mockHomeViewModel),
         ],
         child: MaterialApp.router(
           routeInformationParser: appRouter.defaultRouteParser(),
