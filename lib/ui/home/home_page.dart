@@ -15,10 +15,10 @@ class HomePage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final router = AutoRouter.of(context);
     final homeViewModel = ref.read(homeViewModelProvider);
-    final tdlStatus =
-        ref.watch(homeViewModelProvider.select((value) => value.tdlStatus));
-    final tdsStatus =
-        ref.watch(homeViewModelProvider.select((value) => value.tdsStatus));
+    final tdlStatus = ref.watch(
+        homeViewModelProvider.select<String?>((value) => value.tdlStatus));
+    final tdsStatus = ref.watch(
+        homeViewModelProvider.select<String?>((value) => value.tdsStatus));
 
     final snapshot = useFuture(useMemoized(
       () => Future.wait([

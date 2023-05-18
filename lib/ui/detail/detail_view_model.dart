@@ -5,13 +5,13 @@ import 'package:grandis/data/repository/tdr_repository.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final detailViewModelProvider =
-    ChangeNotifierProvider((ref) => DetailViewModel(ref.read));
+    ChangeNotifierProvider<DetailViewModel>((ref) => DetailViewModel(ref));
 
 class DetailViewModel extends ChangeNotifier {
-  DetailViewModel(this._reader);
+  DetailViewModel(this._ref);
 
-  final Reader _reader;
-  late final TdrRepository _repository = _reader(tdrRepositoryProvider);
+  final Ref _ref;
+  late final TdrRepository _repository = _ref.read(tdrRepositoryProvider);
 
   List<Item>? _attraction;
   List<Item>? get attraction => _attraction;

@@ -16,20 +16,20 @@ class DetailPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final detailViewModel = ref.read(detailViewModelProvider);
-    final attraction =
-        ref.watch(detailViewModelProvider.select((value) => value.attraction));
-    final parade =
-        ref.watch(detailViewModelProvider.select((value) => value.parade));
-    final greeting =
-        ref.watch(detailViewModelProvider.select((value) => value.greeting));
-    final restaurant =
-        ref.watch(detailViewModelProvider.select((value) => value.restaurant));
-    final rehabilitate = ref
-        .watch(detailViewModelProvider.select((value) => value.rehabilitate));
-    final newGoods =
-        ref.watch(detailViewModelProvider.select((value) => value.newGoods));
-    final soonGoods =
-        ref.watch(detailViewModelProvider.select((value) => value.soonGoods));
+    final attraction = ref.watch(detailViewModelProvider
+        .select<List<Item>?>((value) => value.attraction));
+    final parade = ref.watch(
+        detailViewModelProvider.select<List<Item>?>((value) => value.parade));
+    final greeting = ref.watch(
+        detailViewModelProvider.select<List<Item>?>((value) => value.greeting));
+    final restaurant = ref.watch(detailViewModelProvider
+        .select<List<Item>?>((value) => value.restaurant));
+    final rehabilitate = ref.watch(detailViewModelProvider
+        .select<List<Item>?>((value) => value.rehabilitate));
+    final newGoods = ref.watch(
+        detailViewModelProvider.select<List<Item>?>((value) => value.newGoods));
+    final soonGoods = ref.watch(detailViewModelProvider
+        .select<List<Item>?>((value) => value.soonGoods));
     final tabs = <String, List<Item>?>{
       'attraction': attraction,
       'parade': parade,

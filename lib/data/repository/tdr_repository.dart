@@ -13,7 +13,8 @@ import 'package:html/dom.dart';
 import 'dart:async';
 import 'dart:convert';
 
-final tdrRepositoryProvider = Provider((_) => TdrRepository(client: Client()));
+final tdrRepositoryProvider =
+    Provider<TdrRepository>((_) => TdrRepository(client: Client()));
 
 class TdrRepository {
   final String _tdlAttractionUrl =
