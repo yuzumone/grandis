@@ -4,13 +4,13 @@ import 'package:grandis/data/repository/tdr_repository.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final homeViewModelProvider =
-    ChangeNotifierProvider((ref) => HomeViewModel(ref.read));
+    ChangeNotifierProvider<HomeViewModel>((ref) => HomeViewModel(ref));
 
 class HomeViewModel extends ChangeNotifier {
-  HomeViewModel(this._reader);
+  HomeViewModel(this._ref);
 
-  final Reader _reader;
-  late final TdrRepository _repository = _reader(tdrRepositoryProvider);
+  final Ref _ref;
+  late final TdrRepository _repository = _ref.read(tdrRepositoryProvider);
 
   String? _tdlStatus;
   String? get tdlStatus => _tdlStatus;
