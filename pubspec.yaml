@@ -1,6 +1,6 @@
 name: grandis
 description: This app checking maihama theme park wait times.
-version: 2.0.3-dev
+version: 2.0.3
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
