@@ -40,13 +40,13 @@ class TdrRepository {
   final String _tdlStatusUrl = 'https://www.tokyodisneyresort.jp/tdl/';
   final String _tdsStatusUrl = 'https://www.tokyodisneyresort.jp/tds/';
   final String _tdlSoonUrl =
-      'https://www.tokyodisneyresort.jp/view_interface.php?blockId=94199&pageBlockId=2084564';
+      'https://www.tokyodisneyresort.jp/view_interface.php?blockId=94199&pageBlockId=5889942';
   final String _tdsSoonUrl =
-      'https://www.tokyodisneyresort.jp/view_interface.php?blockId=94199&pageBlockId=2084606';
+      'https://www.tokyodisneyresort.jp/view_interface.php?blockId=94199&pageBlockId=5890078';
   final String _tdlNewUrl =
-      'https://www.tokyodisneyresort.jp/view_interface.php?blockId=94199&pageBlockId=2084578';
+      'https://www.tokyodisneyresort.jp/view_interface.php?blockId=94199&pageBlockId=5889957';
   final String _tdsNewUrl =
-      'https://www.tokyodisneyresort.jp/view_interface.php?blockId=94199&pageBlockId=2084634';
+      'https://www.tokyodisneyresort.jp/view_interface.php?blockId=94199&pageBlockId=5890093';
   final Map<String, String> _requestHeaders = {
     'User-Agent':
         'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36',
@@ -229,7 +229,7 @@ class TdrRepository {
         break;
       }
       offset += list.length;
-    } while (offset % 48 == 0);
+    } while (offset % 20 == 0);
     return goods;
   }
 
@@ -258,7 +258,7 @@ class TdrRepository {
         break;
       }
       offset += list.length;
-    } while (offset % 48 == 0);
+    } while (offset % 20 == 0);
     return goods;
   }
 
@@ -268,7 +268,7 @@ class TdrRepository {
       final name = g.querySelector('span')?.text;
       final price = g.querySelector('p.price')?.text;
       final href = g.querySelector('a')?.attributes['href'];
-      final regexp = RegExp('(.+より販売開始)');
+      final regexp = RegExp('販売開始予定：(.*)');
       final date = regexp.firstMatch(g.text)?.group(1)?.trim();
       final url = 'https://www.tokyodisneyresort.jp$href';
       final image = g.querySelector('img')?.attributes['src'];
