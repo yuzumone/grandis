@@ -1,4 +1,4 @@
-## 2.0.3-dev
+## 2.0.3
 - Fix new and soon goods
 
 ## 2.0.2
