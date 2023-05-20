@@ -1,3 +1,6 @@
+## 2.0.3-dev
+- Fix new and soon goods
+
 ## 2.0.2
 - Fix rehabilitate
 - Fix status
